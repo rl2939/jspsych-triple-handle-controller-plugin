@@ -1,0 +1,6 @@
+[submodule "packages/extension-throttle-interface"]
+	path = packages/extension-throttle-interface
+	url = https://github.com/caluap/jspsych_extension_throttle_interface.git
+[submodule "packages/plugin-va-measures"]
+	path = packages/plugin-va-measures
+	url = https://github.com/caluap/jspsych_plugin_va_measures.git
