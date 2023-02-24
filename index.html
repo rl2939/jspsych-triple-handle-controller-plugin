@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Valence/Arousal Measurements</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://unpkg.com/jspsych@7.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.0.0"></script>
+
+    <!-- <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script> -->
+    <!-- <script src="https://unpkg.com/@jspsych/plugin-preload@1.0.0"></script> -->
+    <link
+      href="https://unpkg.com/jspsych@7.3.0/css/jspsych.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>"
+    />
+  </head>
+  <body>
+    <script>
+      let jsPsych = initJsPsych({
+        on_finish: function () {},
+      });
+
+      let experiment = [
+        {
+          type: jsPsychInstructions,
+          pages: ["Hello."],
+        },
+      ];
+
+      jsPsych.run(experiment);
+    </script>
+  </body>
+</html>
