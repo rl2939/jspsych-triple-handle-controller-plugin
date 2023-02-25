@@ -26,7 +26,8 @@
 
       #jsvavideo-container {
         display: grid;
-        --measuring-needle-w: calc(var(--meter-width) + 2rem);
+        gap: 3rem;
+        --measuring-needle-w: calc(var(--meter-width) + 3rem);
         grid-template-columns: var(--measuring-needle-w) auto var(
             --measuring-needle-w
           );
@@ -38,22 +39,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        grid-row: 1 / span 2;
-      }
-
-      .measuring-needle-container .ticks {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: var(--meter-max-height);
-      }
-
-      .ticks span:after {
-        content: "";
-        width: 1rem;
-        height: 1px;
-        display: block;
-        background-color: blueviolet;
+        grid-row: 1;
       }
 
       .measuring-needle {
@@ -83,7 +69,6 @@
       }
       #measuring-dimension-1 {
         grid-column: 3;
-        grid-row: 1 / span 2;
       }
 
       .measuring-labels {
@@ -112,6 +97,34 @@
       #measurements-plots {
         grid-column: 2;
       }
+
+      #video-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      h1 {
+        margin: 0;
+        text-align: center;
+      }
+
+      #player {
+        width: 100%;
+      }
+
+      #video-toolbar {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      #video-column {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
     </style>
     <div id="jsvavideo-container">
       <div class="measuring-needle-container" id="measuring-dimension-0">
@@ -122,15 +135,17 @@
           <span>Excited</span>
         </div>
       </div>
-      <div id="video-container">
-        <h1>Title</h1>
-        <video id="player"></video>
-        <div id="video-toolbar">
-          <button>Play</button>
-          <button>Reset</button>
+      <div id="video-column">
+        <div id="video-container">
+          <h1>Title</h1>
+          <video id="player" src="./videos/ID120_vid4.mp4"></video>
+          <div id="video-toolbar">
+            <button>Play</button>
+            <button>Reset</button>
+          </div>
         </div>
+        <div id="measurements-plots"></div>
       </div>
-      <div id="measurements-plots"></div>
       <div class="measuring-needle-container" id="measuring-dimension-1">
         <div class="measuring-labels">
           <span>Negative</span>
