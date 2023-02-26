@@ -91,6 +91,10 @@ var jsVAVideo = (function (jspsych) {
           document
             .getElementById("vav-measuring-dimension-0")
             .style.setProperty(`--meter-height`, arousalMeter);
+
+          if (this.recordingData && !this.videoPlayer.paused) {
+            this.recordData(valenceMeter, arousalMeter);
+          }
         }
       }
     }
@@ -164,33 +168,64 @@ var jsVAVideo = (function (jspsych) {
       this.data.push({ valence: [], arousal: [] });
     }
 
-    playButtonClick() {
-      const playStr = "► Play",
-        stopStr = "⏸ Pause";
+    startRecording() {
+      if (!this.recordingData) {
+        this.recordingData = true;
+        this.videoPlayer.currentTime = 0;
+      }
+      this.videoPlayer.classList.add("recording");
+      this.recordBtn.textContent = this.pauseStr;
+      this.recordBtn.classList.add("active-btn");
+      this.playBtn.disabled = true;
+      this.videoPlayer.play();
+    }
+    pauseRecording() {
+      this.videoPlayer.pause();
+      this.videoPlayer.classList.remove("recording");
+      this.recordBtn.textContent = this.recordStr;
+      this.recordBtn.classList.remove("active-btn");
+      this.playBtn.disabled = false;
+    }
+    stopRecording() {
+      this.pauseRecording();
+      this.recordingData = false;
+      this.resetData();
+    }
 
-      if (this.playBtn.textContent == playStr) {
-        this.playBtn.textContent = stopStr;
+    playButtonClick() {
+      if (this.playBtn.textContent == this.playStr) {
+        if (this.recordingData) {
+          // ask user if they want to reset previous recording
+          if (
+            !window.confirm(
+              `There is a current recording in progress. Do you want to erase it?`
+            )
+          ) {
+            return;
+          }
+          this.stopRecording();
+          this.videoPlayer.currentTime = 0;
+        }
+
+        this.playBtn.textContent = this.pauseStr;
         this.playBtn.classList.add("active-btn");
+        this.videoPlayer.classList.add("playing");
         this.recordBtn.disabled = true;
+        this.videoPlayer.play();
       } else {
-        this.playBtn.textContent = playStr;
+        this.playBtn.textContent = this.playStr;
         this.playBtn.classList.remove("active-btn");
+        this.videoPlayer.classList.remove("playing");
         this.recordBtn.disabled = false;
+        this.videoPlayer.pause();
       }
     }
 
     recordButtonClick() {
-      const recordStr = "● Record",
-        stopStr = "⏸ Pause";
-
-      if (this.recordBtn.textContent == recordStr) {
-        this.recordBtn.textContent = stopStr;
-        this.recordBtn.classList.add("active-btn");
-        this.playBtn.disabled = true;
+      if (this.recordBtn.textContent == this.recordStr) {
+        this.startRecording();
       } else {
-        this.recordBtn.textContent = recordStr;
-        this.recordBtn.classList.remove("active-btn");
-        this.playBtn.disabled = false;
+        this.pauseRecording();
       }
     }
     resetButtonClick() {}
@@ -327,6 +362,19 @@ var jsVAVideo = (function (jspsych) {
           justify-content: space-around;
         }
 
+        #vav-player {
+          border: 3px solid black;
+          border-radius: 0.25rem;
+        }
+
+        #vav-player.recording {
+          border-color: tomato;
+        }
+
+        #vav-player.playing {
+          border-color: mediumseagreen;
+        }
+
         #vav-overlay {
           position: fixed;
           inset: 0;
@@ -383,7 +431,6 @@ var jsVAVideo = (function (jspsych) {
           background-color: white !important;
         }
 
-
         #record-btn::first-letter {
         }
       </style>
@@ -434,17 +481,23 @@ var jsVAVideo = (function (jspsych) {
         </div>
       </div>`;
 
+      this.playStr = "► Play";
+      this.pauseStr = "⏸ Pause";
+      this.recordStr = "● Record";
+
       this.playBtn = document.getElementById("play-btn");
       this.recordBtn = document.getElementById("record-btn");
       this.resetBtn = document.getElementById("reset-btn");
       this.saveBtn = document.getElementById("save-btn");
 
-      this.recording = false;
+      this.recordingData = false;
 
       this.playBtn.addEventListener("click", this.playButtonClick);
       this.recordBtn.addEventListener("click", this.recordButtonClick);
       this.resetBtn.addEventListener("click", this.resetButtonClick);
       this.saveBtn.addEventListener("click", this.saveButtonClick);
+
+      this.videoPlayer = document.getElementById("vav-player");
 
       window.addEventListener("gamepadconnected", (e) => {
         this.connectHandler(e);
