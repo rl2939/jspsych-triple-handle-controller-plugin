@@ -53,8 +53,8 @@
         background: rgb(var(--meter-fg));
         border-radius: var(--roundness);
         height: calc(
-          (var(--meter-max-height) - 2 * var(--meter-margin)) *
-            var(--meter-height)
+          (var(--meter-max-height) - var(--meter-margin) - var(--roundness)) *
+            var(--meter-height) + var(--roundness) - var(--meter-margin)
         );
       }
 
@@ -98,7 +98,7 @@
         gap: 1rem;
       }
 
-      h1 {
+      #vav-title {
         margin: 0;
         text-align: center;
       }
@@ -133,7 +133,7 @@
       </div>
       <div id="vav-video-column">
         <div id="vav-video-container">
-          <h1>Title</h1>
+          <h1 id="vav-title">Title</h1>
           <video id="vav-player" src="./videos/ID120_vid4.mp4"></video>
           <div id="vav-video-toolbar">
             <button>Play</button>
