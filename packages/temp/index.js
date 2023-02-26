@@ -40,20 +40,24 @@ var jsVAVideo = (function (jspsych) {
       this.jsPsych = jsPsych;
     }
 
-    updateStatus() {
-      const gamepads = navigator.getGamepads
+    seekGamepads() {
+      return navigator.getGamepads
         ? navigator.getGamepads()
         : webkitGetGamepads
         ? webkitGetGamepads()
         : [];
+    }
+
+    updateStatus() {
+      const gamepads = this.seekGamepads();
       if (gamepads.length == 0) {
         return;
       }
-      for (const j in gamepads) {
+      for (const i in gamepads) {
         // this assumes only one plugged in controller
-        if (gamepads[j] && "axes" in gamepads[j]) {
-          let valence = gamepads[j].axes[this.throttleValenceAxis],
-            arousal = gamepads[j].axes[this.throttleArousalAxis];
+        if (gamepads[i] && "axes" in gamepads[i]) {
+          let valence = gamepads[i].axes[this.throttleValenceAxis],
+            arousal = gamepads[i].axes[this.throttleArousalAxis];
           let valenceMeter =
               Math.round(10000 * (1 - (valence + 1) / 2)) / 10000,
             arousalMeter = Math.round(10000 * (1 - (arousal + 1) / 2)) / 10000;
@@ -78,19 +82,38 @@ var jsVAVideo = (function (jspsych) {
     }
 
     validControllerPluggedIn() {
-      return true;
+      const gamepads = this.seekGamepads();
+      if (gamepads.length == 0) {
+        return false;
+      }
+      let foundValenceThrottle = false,
+        foundArousalThrottle = false;
+      for (const i in gamepads) {
+        if (gamepads[i] && "axes" in gamepads[i]) {
+          if (gamepads[i].axes[this.throttleValenceAxis] !== undefined) {
+            foundValenceThrottle = true;
+          }
+          if (gamepads[i].axes[this.throttleValenceAxis] !== undefined) {
+            foundArousalThrottle = true;
+          }
+        }
+      }
+      return foundValenceThrottle && foundArousalThrottle;
     }
 
     connectHandler(e) {
+      console.log("connected");
       this.controllers[e.gamepad.index] = e.gamepad;
-      if (this.validControllerPluggedIn) {
+      if (this.validControllerPluggedIn()) {
         document.getElementById("vav-overlay").style.display = "none";
+        this.startDataCollection();
       }
-      this.startDataCollection();
     }
     disconnectHandler(e) {
+      console.log("disconnected");
       delete this.controllers[e.gamepad.index];
-      if (!this.validControllerPluggedIn) {
+      if (!this.validControllerPluggedIn()) {
+        console.log("invalid");
         document.getElementById("vav-overlay").style.display = "flex";
       }
     }
