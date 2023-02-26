@@ -47,11 +47,19 @@ var jsVAVideo = (function (jspsych) {
       }
       for (const j in gamepads) {
         // this assumes only one plugged in controller
-        // console.log(JSON.stringify(this.controllers[j].axes));
         if (gamepads[j] && "axes" in gamepads[j]) {
           let valence = gamepads[j].axes[this.throttleValenceAxis],
             arousal = gamepads[j].axes[this.throttleArousalAxis];
-          console.log(valence, arousal);
+          let valenceMeter =
+              Math.round(10000 * (1 - (valence + 1) / 2)) / 10000,
+            arousalMeter = Math.round(10000 * (1 - (arousal + 1) / 2)) / 10000;
+
+          document
+            .getElementById("vav-measuring-dimension-1")
+            .style.setProperty(`--meter-height`, valenceMeter);
+          document
+            .getElementById("vav-measuring-dimension-0")
+            .style.setProperty(`--meter-height`, arousalMeter);
         }
       }
     }
