@@ -174,6 +174,8 @@ var jsVAVideo = (function (jspsych) {
         this.videoPlayer.currentTime = 0;
       }
       this.videoPlayer.classList.add("recording");
+      this.measuringNeedles[0].classList.add("recording");
+      this.measuringNeedles[1].classList.add("recording");
       this.recordBtn.textContent = this.pauseStr;
       this.recordBtn.classList.add("active-btn");
       this.playBtn.disabled = true;
@@ -182,6 +184,8 @@ var jsVAVideo = (function (jspsych) {
     pauseRecording() {
       this.videoPlayer.pause();
       this.videoPlayer.classList.remove("recording");
+      this.measuringNeedles[0].classList.remove("recording");
+      this.measuringNeedles[1].classList.remove("recording");
       this.recordBtn.textContent = this.recordStr;
       this.recordBtn.classList.remove("active-btn");
       this.playBtn.disabled = false;
@@ -259,7 +263,8 @@ var jsVAVideo = (function (jspsych) {
           --meter-max-height: 80vh;
           --roundness: 3rem;
           --meter-bg: 0, 0, 0;
-          --meter-fg: 255, 255, 255;
+          --meter-fg: 0, 0, 0;
+          --meter-border-color: 255, 255, 255;
         }
 
         #jsvavideo-container {
@@ -283,8 +288,12 @@ var jsVAVideo = (function (jspsych) {
           position: relative;
           height: var(--meter-max-height);
           width: var(--meter-width);
-          background: rgb(var(--meter-bg));
+          background-color: rgb(var(--meter-bg));
           border-radius: var(--roundness);
+        }
+
+        .vav-measuring-needle.recording {
+          --meter-fg: 255, 255, 255;
         }
 
         .vav-measuring-needle:after {
@@ -293,11 +302,12 @@ var jsVAVideo = (function (jspsych) {
           bottom: var(--meter-margin);
           right: var(--meter-margin);
           left: var(--meter-margin);
-          background: rgb(var(--meter-fg));
+          background-color: rgb(var(--meter-fg));
+          border: var(--meter-margin) solid rgb(var(--meter-border-color));
           border-radius: var(--roundness);
           height: calc(
-            (var(--meter-max-height) - var(--meter-margin) - var(--roundness)) *
-              var(--meter-height) + var(--roundness) - var(--meter-margin)
+            (var(--meter-max-height) - 1 * var(--meter-margin) - var(--roundness)) *
+              var(--meter-height) + var(--roundness) - 3 * var(--meter-margin)
           );
         }
 
@@ -498,6 +508,9 @@ var jsVAVideo = (function (jspsych) {
       this.saveBtn.addEventListener("click", this.saveButtonClick);
 
       this.videoPlayer = document.getElementById("vav-player");
+      this.measuringNeedles = document.getElementsByClassName(
+        "vav-measuring-needle"
+      );
 
       window.addEventListener("gamepadconnected", (e) => {
         this.connectHandler(e);
