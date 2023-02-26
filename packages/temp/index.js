@@ -359,7 +359,7 @@ var jsVAVideo = (function (jspsych) {
 
         #vav-video-toolbar {
           display: grid;
-          grid-template-columns: max-content auto max-content max-content;
+          grid-template-columns: max-content auto max-content;
           gap: 1rem;
         }
 
