@@ -56,6 +56,12 @@ var jsVAVideo = (function (jspsych) {
         : [];
     }
 
+    mapValue(value, in_min, in_max, out_min, out_max) {
+      return (
+        ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+      );
+    }
+
     updateStatus() {
       const gamepads = this.seekGamepads();
       if (gamepads.length == 0) {
@@ -69,6 +75,15 @@ var jsVAVideo = (function (jspsych) {
           let valenceMeter =
               Math.round(10000 * (1 - (valence + 1) / 2)) / 10000,
             arousalMeter = Math.round(10000 * (1 - (arousal + 1) / 2)) / 10000;
+
+          arousalMeter = Math.max(
+            0,
+            this.mapValue(arousalMeter, this.zeroThreshold, 1, 0, 1)
+          );
+          valenceMeter = Math.max(
+            0,
+            this.mapValue(valenceMeter, this.zeroThreshold, 1, 0, 1)
+          );
 
           document
             .getElementById("vav-measuring-dimension-1")
@@ -155,6 +170,10 @@ var jsVAVideo = (function (jspsych) {
       this.throttleValenceAxis = trial.throttle_valence_axis;
       this.throttleArousalAxis = trial.throttle_arousal_axis;
       this.data = { valence: [], arousal: [] };
+      /* actual zero on the throttle is `sticky,` so to avoid 
+      forcing users to apply an excess of strength to move 
+      the throttle out of 0, we slightly reduce the scale */
+      this.zeroThreshold = 0.2;
 
       display_element.innerHTML = `
       <style>
