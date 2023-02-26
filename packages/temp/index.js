@@ -185,6 +185,7 @@ var jsVAVideo = (function (jspsych) {
         this.recordingData = true;
         this.videoPlayer.currentTime = 0;
       }
+      this.resetBtn.disabled = false;
       this.videoPlayer.classList.add("recording");
       this.measuringNeedles[0].classList.add("recording");
       this.measuringNeedles[1].classList.add("recording");
@@ -230,7 +231,10 @@ var jsVAVideo = (function (jspsych) {
     }
 
     recordButtonClick() {
-      if (this.recordBtn.textContent == this.recordStr) {
+      // when the video is playing but not recording
+      // this button will be disabled, so no need to
+      // test those cases
+      if (this.videoPlayer.paused) {
         this.startRecording();
       } else {
         this.pauseRecording();
@@ -249,9 +253,8 @@ var jsVAVideo = (function (jspsych) {
 
         this.videoPlayer.classList.remove("recording", "playing");
 
-        // unlocks data buttons
+        // unlocks data button
         this.saveBtn.disabled = false;
-        this.resetBtn.disabled = false;
       } else {
         this.videoPlayer.currentTime = 0;
         this.pausePlaying();
@@ -259,6 +262,11 @@ var jsVAVideo = (function (jspsych) {
     }
 
     resetButtonClick() {
+      if (this.recordData) {
+        // this might not always be needed, but it's probably
+        // fine to call it just in case
+        this.pauseRecording();
+      }
       if (
         !window.confirm(
           `This will remove the already recorded data and start again. Are you sure?`
