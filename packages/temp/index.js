@@ -136,6 +136,8 @@ var jsVAVideo = (function (jspsych) {
       if (!this.validControllerPluggedIn()) {
         console.log("invalid");
         document.getElementById("vav-overlay").style.display = "flex";
+        this.pauseRecording();
+        this.pausePlaying();
       }
     }
 
