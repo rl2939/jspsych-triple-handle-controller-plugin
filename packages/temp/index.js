@@ -371,6 +371,7 @@ var jsVAVideo = (function (jspsych) {
 
         #vav-player {
           width: 100%;
+          box-sizing: border-box;
           transition: var(--fast-transition) ease border-color;
           border: 3px solid black;
           border-radius: 0.25rem;
