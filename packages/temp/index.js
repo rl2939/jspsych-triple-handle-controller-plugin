@@ -262,6 +262,7 @@ var jsVAVideo = (function (jspsych) {
           --meter-margin: 0.2rem;
           --meter-max-height: 80vh;
           --roundness: 3rem;
+          --fast-transition: 0.2s;
           --meter-bg: 0, 0, 0;
           --meter-fg: 0, 0, 0;
           --meter-border-color: 255, 255, 255;
@@ -295,9 +296,9 @@ var jsVAVideo = (function (jspsych) {
         .vav-measuring-needle.recording {
           --meter-fg: 255, 255, 255;
         }
-
         .vav-measuring-needle:after {
           content: "";
+          transition: var(--fast-transition) ease background-color;
           position: absolute;
           bottom: var(--meter-margin);
           right: var(--meter-margin);
@@ -356,10 +357,6 @@ var jsVAVideo = (function (jspsych) {
           text-align: center;
         }
 
-        #vav-player {
-          width: 100%;
-        }
-
         #vav-video-toolbar {
           display: grid;
           grid-template-columns: max-content auto max-content max-content;
@@ -373,6 +370,8 @@ var jsVAVideo = (function (jspsych) {
         }
 
         #vav-player {
+          width: 100%;
+          transition: var(--fast-transition) ease border-color;
           border: 3px solid black;
           border-radius: 0.25rem;
         }
