@@ -19,11 +19,6 @@
         --meter-fg: 255, 255, 255;
       }
 
-      body {
-        padding: 0;
-        margin: 0;
-      }
-
       #jsvavideo-container {
         display: grid;
         gap: 3rem;
@@ -31,7 +26,6 @@
         grid-template-columns: var(--measuring-needle-w) auto var(
             --measuring-needle-w
           );
-        min-height: 100vh;
         width: 100%;
       }
 
@@ -120,7 +114,6 @@
       }
 
       #video-column {
-        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
