@@ -163,13 +163,11 @@ var jsVAVideo = (function (jspsych) {
 
     trial(display_element, trial) {
       this.controllers = {};
-      this.valenceLabels = trial.valence_labels;
       this.rate = trial.rate;
-      this.title = trial.title;
       this.interval = null;
       this.throttleValenceAxis = trial.throttle_valence_axis;
       this.throttleArousalAxis = trial.throttle_arousal_axis;
-      this.data = { valence: [], arousal: [] };
+      this.data = [{ valence: [], arousal: [] }];
       /* actual zero on the throttle is `sticky,` so to avoid 
       forcing users to apply an excess of strength to move 
       the throttle out of 0, we slightly reduce the scale */
@@ -324,7 +322,7 @@ var jsVAVideo = (function (jspsych) {
         </div>
         <div id="vav-video-column">
           <div id="vav-video-container">
-            ${this.title ? '<h1 id="vav-title">' + this.title + "</h1>" : ""}
+            ${trial.title ? '<h1 id="vav-title">' + trial.title + "</h1>" : ""}
             <video id="vav-player" src="./videos/ID120_vid4.mp4"></video>
             <div id="vav-video-toolbar">
               <button>Play</button>
