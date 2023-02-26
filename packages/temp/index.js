@@ -77,16 +77,22 @@ var jsVAVideo = (function (jspsych) {
       this.jsPsych.finishTrial(trial_data);
     }
 
+    validControllerPluggedIn() {
+      return true;
+    }
+
     connectHandler(e) {
       this.controllers[e.gamepad.index] = e.gamepad;
-      let s = ``;
-      for (const j in this.controllers) {
-        s += this.controllers[j];
+      if (this.validControllerPluggedIn) {
+        document.getElementById("vav-overlay").style.display = "none";
       }
       this.startDataCollection();
     }
     disconnectHandler(e) {
       delete this.controllers[e.gamepad.index];
+      if (!this.validControllerPluggedIn) {
+        document.getElementById("vav-overlay").style.display = "flex";
+      }
     }
 
     startDataCollection() {
@@ -222,8 +228,33 @@ var jsVAVideo = (function (jspsych) {
           flex-direction: column;
           justify-content: space-around;
         }
+
+        #vav-overlay {
+          position: fixed;
+          inset: 0;
+          background-color: rgba(242, 242, 239, 0.9);
+          backdrop-filter: blur(20px);
+          z-index: 999999;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+  
+        #vav-overlay p {
+          max-width: 40ch;
+          text-align: center;
+          font-size: 1.5rem;
+          line-height: 1.4;
+        }
       </style>
       <div id="jsvavideo-container">
+        <div id="vav-overlay">
+          <p>
+            A controller with throttles has not been detected.
+            If you have already plugged one in, please try pressing any 
+            of its buttons or sliding its throttles to activate it.
+          </p>
+        </div>
         <div
           class="vav-measuring-needle-container"
           id="vav-measuring-dimension-0"

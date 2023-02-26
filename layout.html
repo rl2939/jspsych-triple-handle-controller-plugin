@@ -118,8 +118,33 @@
         flex-direction: column;
         justify-content: space-around;
       }
+
+      #vav-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(242, 242, 239, 0.9);
+        backdrop-filter: blur(20px);
+        z-index: 999999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #vav-overlay p {
+        max-width: 40ch;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 1.4;
+      }
     </style>
     <div id="jsvavideo-container">
+      <div id="vav-overlay">
+        <p>
+          A controller has not been detected. <br />If you have already plugged
+          one in, please try pressing any of its buttons or throttles to
+          activate it.
+        </p>
+      </div>
       <div
         class="vav-measuring-needle-container"
         id="vav-measuring-dimension-0"
