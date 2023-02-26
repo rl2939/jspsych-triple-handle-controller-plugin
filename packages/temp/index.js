@@ -100,6 +100,7 @@ var jsVAVideo = (function (jspsych) {
     }
 
     endIt() {
+      window.clearInterval(this.interval);
       // end trial
       this.jsPsych.finishTrial({ data: this.data });
     }
