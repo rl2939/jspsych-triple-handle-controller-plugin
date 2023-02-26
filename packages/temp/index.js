@@ -154,6 +154,48 @@ var jsVAVideo = (function (jspsych) {
       }
     }
 
+    recordData(valence, arousal) {
+      let i = this.data.length - 1;
+      this.data[i].valence.push(valence);
+      this.data[i].arousal.push(arousal);
+    }
+
+    resetData() {
+      this.data.push({ valence: [], arousal: [] });
+    }
+
+    playButtonClick() {
+      const playStr = "► Play",
+        stopStr = "⏸ Pause";
+
+      if (this.playBtn.textContent == playStr) {
+        this.playBtn.textContent = stopStr;
+        this.playBtn.classList.add("active-btn");
+        this.recordBtn.disabled = true;
+      } else {
+        this.playBtn.textContent = playStr;
+        this.playBtn.classList.remove("active-btn");
+        this.recordBtn.disabled = false;
+      }
+    }
+
+    recordButtonClick() {
+      const recordStr = "● Record",
+        stopStr = "⏸ Pause";
+
+      if (this.recordBtn.textContent == recordStr) {
+        this.recordBtn.textContent = stopStr;
+        this.recordBtn.classList.add("active-btn");
+        this.playBtn.disabled = true;
+      } else {
+        this.recordBtn.textContent = recordStr;
+        this.recordBtn.classList.remove("active-btn");
+        this.playBtn.disabled = false;
+      }
+    }
+    resetButtonClick() {}
+    saveButtonClick() {}
+
     formatLabels(labels) {
       if (!labels) {
         return ``;
@@ -274,8 +316,8 @@ var jsVAVideo = (function (jspsych) {
         }
 
         #vav-video-toolbar {
-          display: flex;
-          justify-content: center;
+          display: grid;
+          grid-template-columns: max-content auto max-content max-content;
           gap: 1rem;
         }
 
@@ -302,6 +344,48 @@ var jsVAVideo = (function (jspsych) {
           font-size: 1.5rem;
           line-height: 1.4;
         }
+
+        .player-btn {
+          word-spacing: 0.5rem;
+        }
+
+        #play-btn {
+          color: seagreen;
+          border-color: seagreen;
+        }
+
+        #play-btn:hover:not(disabled):not(.active-btn):not(:active) {
+          background-color: #b7f7d3;
+        }
+
+        #play-btn:active, #play-btn.active-btn {
+          background-color: seagreen;
+          color: white;
+        }
+
+        #record-btn {
+          border-color: tomato;
+          color: tomato;
+        }
+
+        #record-btn:hover:not(disabled):not(.active-btn):not(:active) {
+          background-color: mistyrose;
+        }
+
+        #record-btn:active, #record-btn.active-btn {
+          background-color: tomato;
+          color: white;
+        }
+
+        #play-btn:disabled, #record-btn:disabled {
+          border-color: lightgray;
+          color: lightgray;
+          background-color: white !important;
+        }
+
+
+        #record-btn::first-letter {
+        }
       </style>
       <div id="jsvavideo-container">
         <div id="vav-overlay">
@@ -325,8 +409,16 @@ var jsVAVideo = (function (jspsych) {
             ${trial.title ? '<h1 id="vav-title">' + trial.title + "</h1>" : ""}
             <video id="vav-player" src="./videos/ID120_vid4.mp4"></video>
             <div id="vav-video-toolbar">
-              <button>Play</button>
-              <button>Reset</button>
+              <div class="vav-toolbar-group">
+                <button id="play-btn" class="jspsych-btn player-btn">► Play</button>
+                <button id="record-btn" class="jspsych-btn player-btn">● Record</button>
+              </div>
+              <span></span>
+
+              <div class="vav-toolbar-group">
+                <button id="reset-btn" class="jspsych-btn" disabled>Try again</button>
+                <button id="save-btn" class="jspsych-btn" disabled>Save</button>
+              </div>
             </div>
           </div>
           <div id="vav-measurements-plots"></div>
@@ -340,13 +432,19 @@ var jsVAVideo = (function (jspsych) {
           </div>
           <div class="vav-measuring-needle"></div>
         </div>
-      </div>
+      </div>`;
 
-        <button id="end-it">End it</button>`;
-      document.getElementById("end-it").addEventListener("click", () => {
-        console.log("oi");
-        this.endIt();
-      });
+      this.playBtn = document.getElementById("play-btn");
+      this.recordBtn = document.getElementById("record-btn");
+      this.resetBtn = document.getElementById("reset-btn");
+      this.saveBtn = document.getElementById("save-btn");
+
+      this.recording = false;
+
+      this.playBtn.addEventListener("click", this.playButtonClick);
+      this.recordBtn.addEventListener("click", this.recordButtonClick);
+      this.resetBtn.addEventListener("click", this.resetButtonClick);
+      this.saveBtn.addEventListener("click", this.saveButtonClick);
 
       window.addEventListener("gamepadconnected", (e) => {
         this.connectHandler(e);
