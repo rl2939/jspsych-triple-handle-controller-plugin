@@ -16,6 +16,14 @@ var jsVAVideo = (function (jspsych) {
         type: jspsych.ParameterType.INT,
         default: undefined,
       },
+      valence_labels: {
+        type: jspsych.ParameterType.COMPLEX,
+        default: ["negative", "neutral", "positive"],
+      },
+      arousal_labels: {
+        type: jspsych.ParameterType.COMPLEX,
+        default: ["low", "neutral", "high"],
+      },
       throttle_arousal_axis: {
         type: jspsych.ParameterType.INT,
         default: undefined,
@@ -131,8 +139,16 @@ var jsVAVideo = (function (jspsych) {
       }
     }
 
+    formatLabels(labels) {
+      if (!labels) {
+        return ``;
+      }
+      return labels.map((s) => "<span>" + s + "</span>").join("");
+    }
+
     trial(display_element, trial) {
       this.controllers = {};
+      this.valenceLabels = trial.valence_labels;
       this.rate = trial.rate;
       this.title = trial.title;
       this.interval = null;
@@ -284,9 +300,7 @@ var jsVAVideo = (function (jspsych) {
         >
           <div class="vav-measuring-needle"></div>
           <div class="vav-measuring-labels">
-            <span>Calm</span>
-            <span>Neutral</span>
-            <span>Excited</span>
+            ${this.formatLabels(trial.arousal_labels)}
           </div>
         </div>
         <div id="vav-video-column">
@@ -305,9 +319,7 @@ var jsVAVideo = (function (jspsych) {
           id="vav-measuring-dimension-1"
         >
           <div class="vav-measuring-labels">
-            <span>Negative</span>
-            <span>Neutral</span>
-            <span>Positive</span>
+          ${this.formatLabels(trial.valence_labels)}
           </div>
           <div class="vav-measuring-needle"></div>
         </div>
@@ -325,8 +337,6 @@ var jsVAVideo = (function (jspsych) {
       window.addEventListener("gamepaddisconnected", (e) => {
         this.disconnectHandler(e);
       });
-
-      this.startDataCollection();
     }
   }
   jsVAVideoPlugin.info = info;
