@@ -26,17 +26,6 @@
   <body>
     <script>
       let jsPsych = initJsPsych({
-        // extensions: [
-        //   {
-        //     type: jsPsychExtensionThrottleInterface,
-        //     params: {
-        //       rate: 500,
-        //       axes: [0, 2],
-        //       debug: true,
-        //       callback: (d) => {},
-        //     },
-        //   },
-        // ],
         on_finish: function () {},
       });
 
@@ -51,6 +40,8 @@
           video_src: "./videos/ID120_vid4.mp4",
           throttle_valence_axis: 2,
           throttle_arousal_axis: 0,
+          title: "Fkthplz",
+          css_clases: ["vav-override"],
           rate: 50,
         },
       ];

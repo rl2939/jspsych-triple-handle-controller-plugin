@@ -4,6 +4,10 @@ var jsVAVideo = (function (jspsych) {
   const info = {
     name: "valence-arousal video annotation",
     parameters: {
+      title: {
+        type: jspsych.ParameterType.STRING,
+        default: undefined,
+      },
       video_src: {
         type: jspsych.ParameterType.STRING,
         default: undefined,
@@ -99,6 +103,14 @@ var jsVAVideo = (function (jspsych) {
     }
 
     trial(display_element, trial) {
+      this.controllers = {};
+      this.rate = trial.rate;
+      this.title = trial.title;
+      this.interval = null;
+      this.throttleValenceAxis = trial.throttle_valence_axis;
+      this.throttleArousalAxis = trial.throttle_arousal_axis;
+      this.data = { valence: [], arousal: [] };
+
       display_element.innerHTML = `
       <style>
         :root {
@@ -225,7 +237,7 @@ var jsVAVideo = (function (jspsych) {
         </div>
         <div id="vav-video-column">
           <div id="vav-video-container">
-            <h1 id="vav-title">Title</h1>
+            ${this.title ? '<h1 id="vav-title">' + this.title + "</h1>" : ""}
             <video id="vav-player" src="./videos/ID120_vid4.mp4"></video>
             <div id="vav-video-toolbar">
               <button>Play</button>
@@ -252,13 +264,6 @@ var jsVAVideo = (function (jspsych) {
         console.log("oi");
         this.endIt();
       });
-
-      this.controllers = {};
-      this.rate = trial.rate;
-      this.interval = null;
-      this.throttleValenceAxis = trial.throttle_valence_axis;
-      this.throttleArousalAxis = trial.throttle_arousal_axis;
-      this.data = { valence: [], arousal: [] };
 
       window.addEventListener("gamepadconnected", (e) => {
         this.connectHandler(e);
