@@ -313,10 +313,7 @@ var jsVAVideo = (function (jspsych) {
         #jsvavideo-container {
           display: grid;
           gap: 3rem;
-          --measuring-needle-w: calc(var(--meter-width) + 3rem);
-          grid-template-columns: var(--measuring-needle-w) auto var(
-              --measuring-needle-w
-            );
+          grid-template-columns: minmax(var(--measuring-needle-w), auto) fit-content(960px) minmax(var(--measuring-needle-w), auto);
           width: 100%;
         }
 
@@ -415,7 +412,7 @@ var jsVAVideo = (function (jspsych) {
           width: 100%;
           box-sizing: border-box;
           transition: var(--fast-transition) ease border-color;
-          border: 3px solid black;
+          border: calc(2 * var(--meter-margin)) solid black;
           border-radius: 0.25rem;
         }
 
@@ -486,14 +483,14 @@ var jsVAVideo = (function (jspsych) {
         #record-btn::first-letter {
         }
       </style>
+      <div id="vav-overlay">
+        <p>
+          A controller with throttles has not been detected.
+          If you have already plugged one in, please try pressing any 
+          of its buttons or sliding its throttles to activate it.
+        </p>
+      </div>
       <div id="jsvavideo-container">
-        <div id="vav-overlay">
-          <p>
-            A controller with throttles has not been detected.
-            If you have already plugged one in, please try pressing any 
-            of its buttons or sliding its throttles to activate it.
-          </p>
-        </div>
         <div
           class="vav-measuring-needle-container"
           id="vav-measuring-dimension-0"
