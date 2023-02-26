@@ -76,31 +76,28 @@ var jsVAVideo = (function (jspsych) {
               Math.round(10000 * (1 - (valence + 1) / 2)) / 10000,
             arousalMeter = Math.round(10000 * (1 - (arousal + 1) / 2)) / 10000;
 
-          arousalMeter = Math.max(
+          this.currentArousal = Math.max(
             0,
             this.mapValue(arousalMeter, this.zeroThreshold, 1, 0, 1)
           );
-          valenceMeter = Math.max(
+          this.currentValence = Math.max(
             0,
             this.mapValue(valenceMeter, this.zeroThreshold, 1, 0, 1)
           );
 
           document
             .getElementById("vav-measuring-dimension-1")
-            .style.setProperty(`--meter-height`, valenceMeter);
+            .style.setProperty(`--meter-height`, this.currentValence);
           document
             .getElementById("vav-measuring-dimension-0")
-            .style.setProperty(`--meter-height`, arousalMeter);
-
-          if (this.recordingData && !this.videoPlayer.paused) {
-            this.recordData(valenceMeter, arousalMeter);
-          }
+            .style.setProperty(`--meter-height`, this.currentArousal);
         }
       }
     }
 
     endIt() {
       window.clearInterval(this.interval);
+      window.clearInterval(this.animationInterval);
       // end trial
       this.jsPsych.finishTrial({ data: this.data });
     }
@@ -149,16 +146,21 @@ var jsVAVideo = (function (jspsych) {
       }
 
       if (Object.keys(this.controllers).length > 0) {
-        this.interval = window.setInterval(() => {
+        this.animationInterval = window.setInterval(() => {
           this.updateStatus();
+        }, 1000 / 60);
+        this.interval = window.setInterval(() => {
+          this.recordData();
         }, this.rate);
       }
     }
 
-    recordData(valence, arousal) {
-      let i = this.data.length - 1;
-      this.data[i].valence.push(valence);
-      this.data[i].arousal.push(arousal);
+    recordData() {
+      if (this.currentArousal !== null && this.currentValence !== null) {
+        let i = this.data.length - 1;
+        this.data[i].valence.push(this.currentValence);
+        this.data[i].arousal.push(this.currentArousal);
+      }
     }
 
     resetData() {
@@ -294,9 +296,12 @@ var jsVAVideo = (function (jspsych) {
     }
 
     trial(display_element, trial) {
+      this.currentValence = null;
+      this.currentArousal = null;
       this.controllers = {};
       this.rate = trial.rate;
       this.interval = null;
+      this.animationInterval = null;
       this.throttleValenceAxis = trial.throttle_valence_axis;
       this.throttleArousalAxis = trial.throttle_arousal_axis;
       this.data = [{ valence: [], arousal: [] }];
