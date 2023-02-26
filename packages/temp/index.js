@@ -100,12 +100,8 @@ var jsVAVideo = (function (jspsych) {
     }
 
     endIt() {
-      // data saving
-      var trial_data = {
-        parameter_name: "parameter value",
-      };
       // end trial
-      this.jsPsych.finishTrial(trial_data);
+      this.jsPsych.finishTrial({ data: this.data });
     }
 
     validControllerPluggedIn() {
@@ -168,6 +164,22 @@ var jsVAVideo = (function (jspsych) {
       this.data.push({ valence: [], arousal: [] });
     }
 
+    startPlaying() {
+      this.playBtn.textContent = this.pauseStr;
+      this.playBtn.classList.add("active-btn");
+      this.videoPlayer.classList.add("playing");
+      this.recordBtn.disabled = true;
+      this.videoPlayer.play();
+    }
+
+    pausePlaying() {
+      this.playBtn.textContent = this.playStr;
+      this.playBtn.classList.remove("active-btn");
+      this.videoPlayer.classList.remove("playing");
+      this.recordBtn.disabled = false;
+      this.videoPlayer.pause();
+    }
+
     startRecording() {
       if (!this.recordingData) {
         this.recordingData = true;
@@ -211,17 +223,9 @@ var jsVAVideo = (function (jspsych) {
           this.videoPlayer.currentTime = 0;
         }
 
-        this.playBtn.textContent = this.pauseStr;
-        this.playBtn.classList.add("active-btn");
-        this.videoPlayer.classList.add("playing");
-        this.recordBtn.disabled = true;
-        this.videoPlayer.play();
+        this.startPlaying();
       } else {
-        this.playBtn.textContent = this.playStr;
-        this.playBtn.classList.remove("active-btn");
-        this.videoPlayer.classList.remove("playing");
-        this.recordBtn.disabled = false;
-        this.videoPlayer.pause();
+        this.pausePlaying();
       }
     }
 
@@ -232,8 +236,46 @@ var jsVAVideo = (function (jspsych) {
         this.pauseRecording();
       }
     }
-    resetButtonClick() {}
-    saveButtonClick() {}
+
+    videoEnded() {
+      if (this.recordingData) {
+        // locks player buttons
+        this.recordBtn.disabled = true;
+        this.recordBtn.textContent = this.recordStr;
+        this.recordBtn.classList.remove("active-btn");
+        this.playBtn.disabled = true;
+        this.playBtn.textContent = this.playStr;
+        this.playBtn.classList.remove("active-btn");
+
+        this.videoPlayer.classList.remove("recording", "playing");
+
+        // unlocks data buttons
+        this.saveBtn.disabled = false;
+        this.resetBtn.disabled = false;
+      } else {
+        this.videoPlayer.currentTime = 0;
+        this.pausePlaying();
+      }
+    }
+
+    resetButtonClick() {
+      if (
+        !window.confirm(
+          `This will remove the already recorded data and start again. Are you sure?`
+        )
+      ) {
+        return;
+      }
+      this.videoPlayer.currentTime = 0;
+      this.resetData();
+      this.recordBtn.disabled = false;
+      this.playBtn.disabled = false;
+      this.resetBtn.disabled = true;
+      this.saveBtn.disabled = true;
+    }
+    saveButtonClick() {
+      this.endIt();
+    }
 
     formatLabels(labels) {
       if (!labels) {
@@ -464,7 +506,9 @@ var jsVAVideo = (function (jspsych) {
         <div id="vav-video-column">
           <div id="vav-video-container">
             ${trial.title ? '<h1 id="vav-title">' + trial.title + "</h1>" : ""}
-            <video id="vav-player" src="./videos/ID120_vid4.mp4"></video>
+            <video id="vav-player" src="${
+              trial.video_src ? trial.video_src : ""
+            }"></video>
             <div id="vav-video-toolbar">
               <div class="vav-toolbar-group">
                 <button id="play-btn" class="jspsych-btn player-btn">► Play</button>
@@ -508,6 +552,8 @@ var jsVAVideo = (function (jspsych) {
       this.saveBtn.addEventListener("click", this.saveButtonClick);
 
       this.videoPlayer = document.getElementById("vav-player");
+      this.videoPlayer.addEventListener("ended", this.videoEnded);
+
       this.measuringNeedles = document.getElementsByClassName(
         "vav-measuring-needle"
       );
