@@ -67,6 +67,9 @@ var jsVAVideo = (function (jspsych) {
     }
 
     updateStatus() {
+      if (!this.animate) {
+        return;
+      }
       const gamepads = this.seekGamepads();
       if (gamepads.length == 0) {
         return;
@@ -97,11 +100,12 @@ var jsVAVideo = (function (jspsych) {
             .style.setProperty(`--meter-height`, this.currentArousal);
         }
       }
+      requestAnimationFrame(this.updateStatus);
     }
 
     endIt() {
       window.clearInterval(this.interval);
-      window.clearInterval(this.animationInterval);
+      this.animate = false;
       // end trial
       this.jsPsych.finishTrial({
         data_arrays: this.dataArrays,
@@ -157,9 +161,8 @@ var jsVAVideo = (function (jspsych) {
       }
 
       if (Object.keys(this.controllers).length > 0) {
-        this.animationInterval = window.setInterval(() => {
-          this.updateStatus();
-        }, 1000 / 60);
+        this.animate = true;
+        requestAnimationFrame(this.updateStatus);
         this.interval = window.setInterval(() => {
           this.recordData();
         }, this.rate);
@@ -307,12 +310,12 @@ var jsVAVideo = (function (jspsych) {
     }
 
     trial(display_element, trial) {
+      this.animate = false;
       this.currentValence = null;
       this.currentArousal = null;
       this.controllers = {};
       this.rate = trial.rate;
       this.interval = null;
-      this.animationInterval = null;
       this.throttleValenceAxis = trial.throttle_valence_axis;
       this.throttleArousalAxis = trial.throttle_arousal_axis;
       this.dataArrays = [{ valence: [], arousal: [] }];
