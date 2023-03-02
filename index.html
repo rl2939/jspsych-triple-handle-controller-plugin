@@ -68,6 +68,7 @@
       const subjectId = jsPsych.randomization.randomID(10);
       const filename = `${subjectId}.json`;
       const mode = "DEBUG";
+      const saveData = false;
 
       const save_data = {
         type: jsPsychPipe,
@@ -95,8 +96,11 @@
           title: "",
           rate: 1000 / 4,
         },
-        save_data,
       ];
+
+      if (saveData) {
+        experiment.push(save_data);
+      }
 
       jsPsych.run(experiment);
     </script>
