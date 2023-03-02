@@ -16,6 +16,10 @@ var jsVAVideo = (function (jspsych) {
         type: jspsych.ParameterType.INT,
         default: undefined,
       },
+      axes_labels: {
+        type: jspsych.ParameterType.COMPLEX,
+        default: ["valence", "arousal"],
+      },
       valence_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["negative", "neutral", "positive"],
@@ -374,7 +378,7 @@ var jsVAVideo = (function (jspsych) {
           grid-column: 3;
         }
 
-        .vav-measuring-labels {
+        .vav-measuring-labels, .vav-axis-label {
           display: flex;
           width: calc(var(--meter-max-height) - 1 * var(--roundness));
           height: 1rem;
@@ -384,13 +388,18 @@ var jsVAVideo = (function (jspsych) {
           text-transform: uppercase;
         }
 
-        #vav-measuring-dimension-0 .vav-measuring-labels {
+        .vav-axis-label {
+          font-weight: 700;
+          justify-content: center;
+        }
+
+        #vav-measuring-dimension-0 .vav-measuring-labels, #vav-measuring-dimension-1 .vav-axis-label {
           transform: rotate(90deg)
             translateY(calc(var(--meter-width) * -0.5 - var(--meter-margin) * 4));
           flex-direction: row-reverse;
         }
 
-        #vav-measuring-dimension-1 .vav-measuring-labels {
+        #vav-measuring-dimension-1 .vav-measuring-labels, #vav-measuring-dimension-0 .vav-axis-label {
           transform: rotate(-90deg)
             translateY(calc(var(--meter-width) * -1 + var(--meter-margin) * 3.5));
           flex-direction: row;
@@ -511,6 +520,11 @@ var jsVAVideo = (function (jspsych) {
           class="vav-measuring-needle-container"
           id="vav-measuring-dimension-0"
         >
+          ${
+            trial.axes_labels
+              ? '<div class="vav-axis-label">' + trial.axes_labels[0] + "</div>"
+              : ""
+          }
           <div class="vav-measuring-needle"></div>
           <div class="vav-measuring-labels">
             ${this.formatLabels(trial.arousal_labels)}
@@ -545,6 +559,11 @@ var jsVAVideo = (function (jspsych) {
           ${this.formatLabels(trial.valence_labels)}
           </div>
           <div class="vav-measuring-needle"></div>
+          ${
+            trial.axes_labels
+              ? '<div class="vav-axis-label">' + trial.axes_labels[1] + "</div>"
+              : ""
+          }
         </div>
       </div>`;
 

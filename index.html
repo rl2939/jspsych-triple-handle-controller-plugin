@@ -37,7 +37,7 @@
   <body>
     <script>
       let jsPsych = initJsPsych({
-        on_finish: function () {},
+        on_finish: function () {
           jsPsych.data.displayData();
         },
       });
@@ -53,11 +53,12 @@
           video_src: "./videos/short.mp4",
           throttle_valence_axis: 2,
           throttle_arousal_axis: 0,
-          title: "Fkthplz",
           valence_labels: ["negative", "neutral", "positive"],
           arousal_labels: ["low", "neutral", "high"],
           css_clases: ["vav-override"],
-          rate: 1000 / 60,
+          axes_labels: ["valence", "arousal"],
+          title: "",
+          rate: 1000 / 4,
         },
       ];
 
