@@ -24,13 +24,37 @@
     />
 
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-7..0,200..900&display=swap");
+
+      :root {
+        --primary: 32, 107, 248;
+        --paperColor: 255, 253, 245;
+        --column-width: 720px;
+      }
+
+      body {
+        background-color: rgb(var(--paperColor));
+        margin: 0;
+        padding: 0;
+      }
+
+      .jspsych-display-element,
+      .jspsych-display-element input[type="text"],
+      .jspsych-btn,
+      button,
+      textarea,
+      p,
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
       #jspsych-content {
         width: 100%;
         max-width: unset;
       }
-      body {
-        margin: 0;
-        padding: 0;
+
+      #vav-player {
+        background-color: black;
       }
     </style>
   </head>
