@@ -94,7 +94,11 @@
           css_clases: ["vav-override"],
           axes_labels: ["valence", "arousal"],
           title: "",
-          rate: 1000 / 4,
+          // from the full throttle paper: a monitor refresh rate of 60 Hz meant
+          // that their position could be mapped on to changes on screen every 16.7 ms
+          // or higher. Device co-ordinates were thus recorded in intervals of 1-2
+          // refresh rates.
+          rate: 1000 / 60,
         },
       ];
 
