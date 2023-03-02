@@ -103,7 +103,12 @@ var jsVAVideo = (function (jspsych) {
       window.clearInterval(this.interval);
       window.clearInterval(this.animationInterval);
       // end trial
-      this.jsPsych.finishTrial({ data: this.data });
+      this.jsPsych.finishTrial({
+        data_arrays: this.dataArrays,
+        rate: this.rate,
+        video_src: this.videoSrc,
+        duration: this.videoDuration,
+      });
     }
 
     validControllerPluggedIn() {
@@ -163,14 +168,14 @@ var jsVAVideo = (function (jspsych) {
 
     recordData() {
       if (this.currentArousal !== null && this.currentValence !== null) {
-        let i = this.data.length - 1;
-        this.data[i].valence.push(this.currentValence);
-        this.data[i].arousal.push(this.currentArousal);
+        let i = this.dataArrays.length - 1;
+        this.dataArrays[i].valence.push(this.currentValence);
+        this.dataArrays[i].arousal.push(this.currentArousal);
       }
     }
 
     resetData() {
-      this.data.push({ valence: [], arousal: [] });
+      this.dataArrays.push({ valence: [], arousal: [] });
     }
 
     startPlaying() {
@@ -310,7 +315,8 @@ var jsVAVideo = (function (jspsych) {
       this.animationInterval = null;
       this.throttleValenceAxis = trial.throttle_valence_axis;
       this.throttleArousalAxis = trial.throttle_arousal_axis;
-      this.data = [{ valence: [], arousal: [] }];
+      this.dataArrays = [{ valence: [], arousal: [] }];
+      this.videoSrc = trial.video_src;
       /* actual zero on the throttle is `sticky,` so to avoid 
       forcing users to apply an excess of strength to move 
       the throttle out of 0, we slightly reduce the scale */
@@ -585,6 +591,9 @@ var jsVAVideo = (function (jspsych) {
 
       this.videoPlayer = document.getElementById("vav-player");
       this.videoPlayer.addEventListener("ended", this.videoEnded);
+      this.videoPlayer.addEventListener("loadedmetadata", () => {
+        this.videoDuration = this.videoPlayer.duration;
+      });
 
       this.measuringNeedles = document.getElementsByClassName(
         "vav-measuring-needle"

@@ -11,7 +11,7 @@
     <script src="./packages/extension-throttle-interface/index.js"></script>
     <!-- <script src="./packages/plugin-va-measures/index.js"></script> -->
     <script src="./packages/temp/index.js"></script>
-    <!-- <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script> -->
+    <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
     <!-- <script src="https://unpkg.com/@jspsych/plugin-preload@1.0.0"></script> -->
     <link
       href="https://unpkg.com/jspsych@7.3.0/css/jspsych.css"
@@ -65,13 +65,24 @@
           jsPsych.data.displayData();
         },
       });
+      const subjectId = jsPsych.randomization.randomID(10);
+      const filename = `${subjectId}.json`;
+      const mode = "DEBUG";
+
+      const save_data = {
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: "X5XRFJ7MCxZ1",
+        filename: filename,
+        data_string: () => jsPsych.data.get().json(),
+      };
+
+      jsPsych.data.addProperties({
+        subject: subjectId,
+        mode,
+      });
 
       let experiment = [
-        {
-          type: jsPsychInstructions,
-          pages: ["Hi."],
-          show_clickable_nav: true,
-        },
         {
           type: jsVAVideo,
           video_src: "./videos/short.mp4",
@@ -84,6 +95,7 @@
           title: "",
           rate: 1000 / 4,
         },
+        save_data,
       ];
 
       jsPsych.run(experiment);
