@@ -62,7 +62,9 @@
     <script>
       let jsPsych = initJsPsych({
         on_finish: function () {
-          jsPsych.data.displayData();
+          if (mode == "DEBUG") {
+            jsPsych.data.displayData();
+          }
         },
       });
       const subjectId = jsPsych.randomization.randomID(10);
