@@ -271,6 +271,8 @@ var jsVAVideo = (function (jspsych) {
         this.playBtn.classList.remove("active-btn");
 
         this.videoPlayer.classList.remove("recording", "playing");
+        this.measuringNeedles[0].classList.remove("recording");
+        this.measuringNeedles[1].classList.remove("recording");
 
         // unlocks data button
         this.saveBtn.disabled = false;
