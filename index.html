@@ -80,6 +80,17 @@
         data_string: () => jsPsych.data.get().json(),
       };
 
+      const videos = [
+        "ID120_vid4.mp4",
+        "ID127_vid3.mp4",
+        "ID128_vid6.mp4",
+        "ID156_vid3.mp4",
+        "ID161_vid1.mp4",
+        "ID165_vid5.mp4",
+        "ID174_vid1.mp4",
+        "ID181_vid4.mp4",
+      ];
+
       jsPsych.data.addProperties({
         subject: subjectId,
         mode,
@@ -88,7 +99,6 @@
       let experiment = [
         {
           type: jsVAVideo,
-          video_src: "./videos/short.mp4",
           throttle_valence_axis: 2,
           throttle_arousal_axis: 0,
           valence_labels: ["negative", "neutral", "positive"],
@@ -108,7 +118,14 @@
         experiment.push(save_data);
       }
 
-      jsPsych.run(experiment);
+      async function createExperiment() {
+        const condition = await jsPsychPipe.getCondition("X5XRFJ7MCxZ1");
+        const videoSrc = `./videos/${videos[condition]}`;
+        experiment[0].video_src = videoSrc;
+        jsPsych.run(experiment);
+      }
+
+      createExperiment();
     </script>
   </body>
 </html>
