@@ -141,7 +141,6 @@ var jsVAVideo = (function (jspsych) {
     }
 
     connectHandler(e) {
-      console.log("connected");
       this.controllers[e.gamepad.index] = e.gamepad;
       if (this.validControllerPluggedIn()) {
         document.getElementById("vav-overlay").style.display = "none";
@@ -149,10 +148,8 @@ var jsVAVideo = (function (jspsych) {
       }
     }
     disconnectHandler(e) {
-      console.log("disconnected");
       delete this.controllers[e.gamepad.index];
       if (!this.validControllerPluggedIn()) {
-        console.log("invalid");
         document.getElementById("vav-overlay").style.display = "flex";
         this.pauseRecording();
         this.pausePlaying();
