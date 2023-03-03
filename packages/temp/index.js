@@ -281,7 +281,7 @@ var jsVAVideo = (function (jspsych) {
     }
 
     resetButtonClick() {
-      if (this.recordData) {
+      if (this.recordingData) {
         // this might not always be needed, but it's probably
         // fine to call it just in case
         this.pauseRecording();
