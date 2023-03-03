@@ -376,9 +376,10 @@ var jsVAVideo = (function (jspsych) {
           background-color: rgb(var(--meter-fg));
           border: var(--meter-margin) solid rgb(var(--meter-border-color));
           border-radius: var(--roundness);
+          box-sizing: border-box;
           height: calc(
             (var(--meter-max-height) - 1 * var(--meter-margin) - var(--roundness)) *
-              var(--meter-height) + var(--roundness) - 3 * var(--meter-margin)
+              var(--meter-height) + var(--roundness) - var(--meter-margin)
           );
         }
 
