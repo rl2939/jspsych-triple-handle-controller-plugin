@@ -64,6 +64,8 @@
         on_finish: function () {
           if (mode == "DEBUG") {
             jsPsych.data.displayData();
+          } else {
+            window.location.href = "/thank-you.html";
           }
         },
       });
