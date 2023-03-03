@@ -79,9 +79,8 @@ var jsVAVideo = (function (jspsych) {
         if (gamepads[i] && "axes" in gamepads[i]) {
           let valence = gamepads[i].axes[this.throttleValenceAxis],
             arousal = gamepads[i].axes[this.throttleArousalAxis];
-          let valenceMeter =
-              Math.round(10000 * (1 - (valence + 1) / 2)) / 10000,
-            arousalMeter = Math.round(10000 * (1 - (arousal + 1) / 2)) / 10000;
+          let valenceMeter = 1 - (valence + 1) / 2,
+            arousalMeter = 1 - (arousal + 1) / 2;
 
           this.currentArousal = Math.max(
             0,
@@ -94,10 +93,16 @@ var jsVAVideo = (function (jspsych) {
 
           document
             .getElementById("vav-measuring-dimension-1")
-            .style.setProperty(`--meter-height`, this.currentValence);
+            .style.setProperty(
+              `--meter-height`,
+              Math.ceil(100 * this.currentValence) / 100
+            );
           document
             .getElementById("vav-measuring-dimension-0")
-            .style.setProperty(`--meter-height`, this.currentArousal);
+            .style.setProperty(
+              `--meter-height`,
+              Math.ceil(100 * this.currentArousal) / 100
+            );
         }
       }
       requestAnimationFrame(this.updateStatus);
