@@ -332,7 +332,7 @@ var jsVAVideo = (function (jspsych) {
         :root {
           --meter-height: 0.5;
           --meter-width: 3rem;
-          --meter-margin: 0.2rem;
+          --meter-margin: 3px;
           --meter-max-height: 80vh;
           --roundness: 3rem;
           --fast-transition: 0.2s;
