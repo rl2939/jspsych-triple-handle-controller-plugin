@@ -16,6 +16,10 @@ var jsVAVideo = (function (jspsych) {
         type: jspsych.ParameterType.INT,
         default: undefined,
       },
+      mode: {
+        type: jspsych.ParameterType.STRING,
+        default: "DEBUG",
+      },
       axes_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["valence", "arousal"],
@@ -172,11 +176,22 @@ var jsVAVideo = (function (jspsych) {
     }
 
     recordData() {
-      if (this.currentArousal !== null && this.currentValence !== null) {
-        let i = this.dataArrays.length - 1;
-        this.dataArrays[i].valence.push(this.currentValence);
-        this.dataArrays[i].arousal.push(this.currentArousal);
+      if (
+        this.currentArousal == null ||
+        this.currentValence == null ||
+        this.videoPlayer.paused ||
+        !this.recordingData
+      ) {
+        this.recordingFeedback.innerText = "";
+        return;
       }
+      if (this.mode == "DEBUG") {
+        this.recordingFeedback.innerText = "Recording";
+      }
+      let i = this.dataArrays.length - 1;
+      this.dataArrays[i].valence.push(this.currentValence);
+      this.dataArrays[i].arousal.push(this.currentArousal);
+      console.log(this.currentValence, this.currentArousal);
     }
 
     resetData() {
@@ -319,6 +334,7 @@ var jsVAVideo = (function (jspsych) {
       this.currentArousal = null;
       this.controllers = {};
       this.rate = trial.rate;
+      this.mode = trial.mode ? trial.mode : "DEBUG";
       this.interval = null;
       this.throttleValenceAxis = trial.throttle_valence_axis;
       this.throttleArousalAxis = trial.throttle_arousal_axis;
@@ -521,6 +537,12 @@ var jsVAVideo = (function (jspsych) {
 
         #record-btn::first-letter {
         }
+
+        #recording-feedback {
+          position: fixed;
+          left: 1rem;
+          bottom: 1rem;
+        }
       </style>
       <div id="vav-overlay">
         <p>
@@ -529,6 +551,7 @@ var jsVAVideo = (function (jspsych) {
           of its buttons or sliding its throttles to activate it.
         </p>
       </div>
+      <div id="recording-feedback">...</div>
       <div id="jsvavideo-container">
         <div
           class="vav-measuring-needle-container"
@@ -591,6 +614,11 @@ var jsVAVideo = (function (jspsych) {
       this.saveBtn = document.getElementById("save-btn");
 
       this.recordingData = false;
+
+      this.recordingFeedback = document.getElementById("recording-feedback");
+      if (this.mode !== "DEBUG") {
+        this.recordingFeedback.style.display = "none";
+      }
 
       this.playBtn.addEventListener("click", this.playButtonClick);
       this.recordBtn.addEventListener("click", this.recordButtonClick);
