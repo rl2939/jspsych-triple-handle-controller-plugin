@@ -1,6 +1,7 @@
 var jsVAVideo = (function (jspsych) {
   "use strict";
 
+  /* Set up constants */
   const info = {
     name: "valence-arousal video annotation",
     parameters: {
@@ -44,9 +45,10 @@ var jsVAVideo = (function (jspsych) {
   };
 
   /**
-   * **PLUGIN-NAME**
+   * **Subjective Perception Logger**
    *
-   * SHORT PLUGIN DESCRIPTION
+   * This plugin collects responses to an video file in real time
+   * using a game controller.
    *
    * @author YOUR NAME
    * @see {@link https://DOCUMENTATION_URL DOCUMENTATION LINK TEXT}
@@ -56,6 +58,10 @@ var jsVAVideo = (function (jspsych) {
       this.jsPsych = jsPsych;
     }
 
+    /**
+     * Finds (seeks) out gamepads.
+     * @returns {Array} An Array of Gamepad objects
+     */
     seekGamepads() {
       return navigator.getGamepads
         ? navigator.getGamepads()
@@ -64,12 +70,25 @@ var jsVAVideo = (function (jspsych) {
         : [];
     }
 
+    /**
+     * Converts a value from one range to another.
+     * @param {Number} value Value to convert.
+     * @param {Number} in_min Minimum value of the old range.
+     * @param {Number} in_max Maximum value of the old range.
+     * @param {Number} out_min Minimum value of the new range.
+     * @param {Number} out_max Minimum value of the new range.
+     * @returns {Number} The value from the old range converted to the new range.
+     */
     mapValue(value, in_min, in_max, out_min, out_max) {
       return (
         ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
       );
     }
 
+    /**
+     * Collects and update values from a controller.
+     * @returns {undefined} No value.
+     */
     updateStatus() {
       if (!this.animate) {
         return;
@@ -112,6 +131,9 @@ var jsVAVideo = (function (jspsych) {
       requestAnimationFrame(this.updateStatus);
     }
 
+    /**
+     * Ends a trial.
+     */
     endIt() {
       window.clearInterval(this.interval);
       this.animate = false;
@@ -124,6 +146,10 @@ var jsVAVideo = (function (jspsych) {
       });
     }
 
+    /**
+     * Checks if there is a controller with at least two axises are plugged in. 
+     * @returns {Boolean} True if a controller with at least two axes are pluged in, false otherwise
+     */
     validControllerPluggedIn() {
       const gamepads = this.seekGamepads();
       if (gamepads.length == 0) {
@@ -144,6 +170,10 @@ var jsVAVideo = (function (jspsych) {
       return foundValenceThrottle && foundArousalThrottle;
     }
 
+    /**
+     * Connects a gamepad.
+     * @param {Gamepad} e The gamepad object to be connected.
+     */
     connectHandler(e) {
       this.controllers[e.gamepad.index] = e.gamepad;
       if (this.validControllerPluggedIn()) {
@@ -151,6 +181,10 @@ var jsVAVideo = (function (jspsych) {
         this.startDataCollection();
       }
     }
+    /**
+     * Disconnects a gamepad.
+     * @param {Gamepad} e The gamepad object to be disconnected. 
+     */
     disconnectHandler(e) {
       delete this.controllers[e.gamepad.index];
       if (!this.validControllerPluggedIn()) {
@@ -159,7 +193,10 @@ var jsVAVideo = (function (jspsych) {
         this.pausePlaying();
       }
     }
-
+    /**
+     * Starts the data collection
+     * @returns {undefined} No value if there is data collection already started.
+     */
     startDataCollection() {
       if (this.interval != null) {
         // has already started!
@@ -175,6 +212,10 @@ var jsVAVideo = (function (jspsych) {
       }
     }
 
+    /**
+     * Records data from the controller.
+     * @returns {undefined} No data
+     */
     recordData() {
       if (
         this.currentArousal == null ||
@@ -194,10 +235,16 @@ var jsVAVideo = (function (jspsych) {
       console.log(this.currentValence, this.currentArousal);
     }
 
+    /**
+     * Resets all axis data
+     */
     resetData() {
       this.dataArrays.push({ valence: [], arousal: [] });
     }
 
+    /**
+     * Starts the video.
+     */
     startPlaying() {
       this.playBtn.textContent = this.pauseStr;
       this.playBtn.classList.add("active-btn");
@@ -205,7 +252,10 @@ var jsVAVideo = (function (jspsych) {
       this.recordBtn.disabled = true;
       this.videoPlayer.play();
     }
-
+    
+    /**
+     * Pauses the video.
+     */
     pausePlaying() {
       this.playBtn.textContent = this.playStr;
       this.playBtn.classList.remove("active-btn");
@@ -214,6 +264,9 @@ var jsVAVideo = (function (jspsych) {
       this.videoPlayer.pause();
     }
 
+    /**
+     * Starts recording of data. Also starts the video in the video player.
+     */
     startRecording() {
       if (!this.recordingData) {
         this.recordingData = true;
@@ -228,6 +281,10 @@ var jsVAVideo = (function (jspsych) {
       this.playBtn.disabled = true;
       this.videoPlayer.play();
     }
+
+    /**
+     * Pauses recording of data.
+     */
     pauseRecording() {
       this.videoPlayer.pause();
       this.videoPlayer.classList.remove("recording");
@@ -237,12 +294,20 @@ var jsVAVideo = (function (jspsych) {
       this.recordBtn.classList.remove("active-btn");
       this.playBtn.disabled = false;
     }
+
+    /**
+     * Stops recording of data.
+     */
     stopRecording() {
       this.pauseRecording();
       this.recordingData = false;
       this.resetData();
     }
 
+    /**
+     * Starts the video. Does not record data.
+     * @returns {undefined} No value
+     */
     playButtonClick() {
       if (this.playBtn.textContent == this.playStr) {
         if (this.recordingData) {
@@ -264,6 +329,9 @@ var jsVAVideo = (function (jspsych) {
       }
     }
 
+    /**
+     * Starts recording data.
+     */
     recordButtonClick() {
       // when the video is playing but not recording
       // this button will be disabled, so no need to
@@ -275,6 +343,9 @@ var jsVAVideo = (function (jspsych) {
       }
     }
 
+    /**
+     * Locks the video player button and unlocks the data buttons.
+     */
     videoEnded() {
       if (this.recordingData) {
         // locks player buttons
@@ -297,6 +368,10 @@ var jsVAVideo = (function (jspsych) {
       }
     }
 
+    /**
+     * Resets the video and the recording.
+     * @returns {undefined} No data
+     */
     resetButtonClick() {
       if (this.recordingData) {
         // this might not always be needed, but it's probably
@@ -317,10 +392,20 @@ var jsVAVideo = (function (jspsych) {
       this.resetBtn.disabled = true;
       this.saveBtn.disabled = true;
     }
+
+    /**
+     * Saves data.
+     */
     saveButtonClick() {
       this.endIt();
     }
 
+    /**
+     * Combines labels together
+     * @param {*} labels The labels to be formatted
+     * @returns {String} None if no labels, 
+     * HTML containing a span of the cominbed string otherwise.
+     */
     formatLabels(labels) {
       if (!labels) {
         return ``;
@@ -328,6 +413,14 @@ var jsVAVideo = (function (jspsych) {
       return labels.map((s) => "<span>" + s + "</span>").join("");
     }
 
+    /**
+     * Sets up a trial to record controller in real time 
+     * while watching a video.
+     * @param {HTMLElement} display_element The DOM element 
+     * where jsPsych content is being rendered.
+     * @param {object} trial Object containing all of the 
+     * parameters specified in the corresponding TimelineNode. 
+     */
     trial(display_element, trial) {
       this.animate = false;
       this.currentValence = null;
@@ -635,9 +728,16 @@ var jsVAVideo = (function (jspsych) {
         "vav-measuring-needle"
       );
 
+      /**
+       * Looks to see if a gamepad is connected.
+       */
       window.addEventListener("gamepadconnected", (e) => {
         this.connectHandler(e);
       });
+
+      /**
+       * Looks to see if a gamepad is disconnected.
+       */
       window.addEventListener("gamepaddisconnected", (e) => {
         this.disconnectHandler(e);
       });
