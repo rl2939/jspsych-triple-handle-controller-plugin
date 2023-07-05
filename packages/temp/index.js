@@ -455,7 +455,16 @@ var jsVAVideo = (function (jspsych) {
         #jsvavideo-container {
           display: grid;
           gap: 3rem;
-          grid-template-columns: minmax(var(--measuring-needle-w), auto) fit-content(960px) minmax(var(--measuring-needle-w), auto);
+          --measuring-needle-w: calc(var(--meter-width) + 3rem);
+          grid-template-columns: 
+            /*minmax(var(--measuring-needle-w), auto)
+            minmax(var(--measuring-needle-w), auto) 
+            minmax(var(--measuring-needle-w), auto) 
+            fit-content(960px) 
+            minmax(var(--measuring-needle-w), auto)
+            minmax(var(--measuring-needle-w), auto)
+            minmax(var(--measuring-needle-w), auto);*/
+            1fr 1fr 1fr fit-content(960px) 1fr 1fr 1fr
           width: 100%;
         }
 
@@ -501,6 +510,10 @@ var jsVAVideo = (function (jspsych) {
           grid-column: 3;
         }
 
+        #vav-measuring-dimension-2 {
+          grid-column: 6;
+        }
+
         .vav-measuring-labels, .vav-axis-label {
           display: flex;
           width: calc(var(--meter-max-height) - 1 * var(--roundness));
@@ -527,6 +540,12 @@ var jsVAVideo = (function (jspsych) {
             translateY(calc(var(--meter-width) * -1 + var(--meter-margin) * 3.5));
           flex-direction: row;
         }
+
+        /* #vav-measuring-dimension-2 .vav-measuring-labels, #vav-measuring-dimension-1 .vav-axis-label {
+          transform: rotate(-90deg)
+            translateY(calc(var(--meter-width) * -1 + var(--meter-margin) * 3.5));
+          flex-direction: row;
+        } */
 
         #vav-video-container,
         #vav-measurements-plots {
@@ -695,6 +714,20 @@ var jsVAVideo = (function (jspsych) {
               : ""
           }
         </div>
+        <!-- <div
+          class="vav-measuring-needle-container"
+          id="vav-measuring-dimension-2"
+        >
+          <div class="vav-measuring-labels">
+          ${this.formatLabels(trial.valence_labels)}
+          </div>
+          <div class="vav-measuring-needle"></div>
+          ${
+            trial.axes_labels
+              ? '<div class="vav-axis-label">' + trial.axes_labels[1] + "</div>"
+              : ""
+          }
+        </div> -->
       </div>`;
 
       this.playStr = "► Play";
