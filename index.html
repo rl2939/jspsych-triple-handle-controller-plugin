@@ -84,13 +84,13 @@
 
       const videos = [
         "ID120_vid4.mp4",
-        "ID127_vid3.mp4",
+        /*"ID127_vid3.mp4",
         "ID128_vid6.mp4",
         "ID156_vid3.mp4",
         "ID161_vid1.mp4",
         "ID165_vid5.mp4",
         "ID174_vid1.mp4",
-        "ID181_vid4.mp4",
+        "ID181_vid4.mp4",*/
       ];
 
       jsPsych.data.addProperties({
@@ -122,7 +122,7 @@
 
       async function createExperiment() {
         const condition = await jsPsychPipe.getCondition("X5XRFJ7MCxZ1");
-        const videoSrc = `./videos/${videos[condition]}`;
+        const videoSrc = `./videos/${videos[0]}`;
         // const videoSrc = `./videos/short.mp4`;
         experiment[0].video_src = videoSrc;
         jsPsych.run(experiment);
