@@ -3,7 +3,7 @@ var jsVAVideo = (function (jspsych) {
 
   /* Set up constants */
   const info = {
-    name: "valence-arousal video annotation",
+    name: "axis2-axis1 video annotation",
     parameters: {
       title: {
         type: jspsych.ParameterType.STRING,
@@ -27,15 +27,15 @@ var jsVAVideo = (function (jspsych) {
       },
       axes_labels: {
         type: jspsych.ParameterType.COMPLEX,
-        default: ["valence", "arousal"],
+        default: ["axis2", "axis1"],
       },
-      valence_labels: {
-        type: jspsych.ParameterType.COMPLEX,
-        default: ["negative", "neutral", "positive"],
-      },
-      arousal_labels: {
+      axis1_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["low", "neutral", "high"],
+      },
+      axis2_labels: {
+        type: jspsych.ParameterType.COMPLEX,
+        default: ["negative", "neutral", "positive"],
       },
       rate: {
         type: jspsych.ParameterType.INT,
@@ -100,31 +100,31 @@ var jsVAVideo = (function (jspsych) {
       for (const i in gamepads) {
         // this assumes only one plugged in controller
         if (gamepads[i] && "axes" in gamepads[i]) {
-          let valence = gamepads[i].axes[this.axis2],
-            arousal = gamepads[i].axes[this.axis1 ];
-          let valenceMeter = 1 - (valence + 1) / 2,
-            arousalMeter = 1 - (arousal + 1) / 2;
+          let axis2 = gamepads[i].axes[this.axis2],
+            axis1 = gamepads[i].axes[this.axis1 ];
+          let axis2Meter = 1 - (axis2 + 1) / 2,
+            axis1Meter = 1 - (axis1 + 1) / 2;
 
-          this.currentArousal = Math.max(
+          this.currentAxis1 = Math.max(
             0,
-            this.mapValue(arousalMeter, this.zeroThreshold, 1, 0, 1)
+            this.mapValue(axis1Meter, this.zeroThreshold, 1, 0, 1)
           );
-          this.currentValence = Math.max(
+          this.currentAxis2 = Math.max(
             0,
-            this.mapValue(valenceMeter, this.zeroThreshold, 1, 0, 1)
+            this.mapValue(axis2Meter, this.zeroThreshold, 1, 0, 1)
           );
 
           document
             .getElementById("vav-measuring-dimension-1")
             .style.setProperty(
               `--meter-height`,
-              Math.ceil(100 * this.currentValence) / 100
+              Math.ceil(100 * this.currentAxis2) / 100
             );
           document
             .getElementById("vav-measuring-dimension-0")
             .style.setProperty(
               `--meter-height`,
-              Math.ceil(100 * this.currentArousal) / 100
+              Math.ceil(100 * this.currentAxis1) / 100
             );
         }
       }
@@ -155,19 +155,19 @@ var jsVAVideo = (function (jspsych) {
       if (gamepads.length == 0) {
         return false;
       }
-      let foundValenceThrottle = false,
-        foundArousalThrottle = false;
+      let foundAxis2Throttle = false,
+        foundAxis1Throttle = false;
       for (const i in gamepads) {
         if (gamepads[i] && "axes" in gamepads[i]) {
           if (gamepads[i].axes[this.axis2] !== undefined) {
-            foundValenceThrottle = true;
+            foundAxis2Throttle = true;
           }
           if (gamepads[i].axes[this.axis2] !== undefined) {
-            foundArousalThrottle = true;
+            foundAxis1Throttle = true;
           }
         }
       }
-      return foundValenceThrottle && foundArousalThrottle;
+      return foundAxis2Throttle && foundAxis1Throttle;
     }
 
     /**
@@ -218,8 +218,8 @@ var jsVAVideo = (function (jspsych) {
      */
     recordData() {
       if (
-        this.currentArousal == null ||
-        this.currentValence == null ||
+        this.currentAxis1 == null ||
+        this.currentAxis2 == null ||
         this.videoPlayer.paused ||
         !this.recordingData
       ) {
@@ -230,9 +230,9 @@ var jsVAVideo = (function (jspsych) {
         this.recordingFeedback.innerText = "Recording";
       }
       let i = this.dataArrays.length - 1;
-      this.dataArrays[i].axis1Array.push(this.currentValence);
-      this.dataArrays[i].axis2Array.push(this.currentArousal);
-      console.log(this.currentValence, this.currentArousal);
+      this.dataArrays[i].axis1Array.push(this.currentAxis2);
+      this.dataArrays[i].axis2Array.push(this.currentAxis1);
+      console.log(this.currentAxis2, this.currentAxis1);
     }
 
     /**
@@ -423,8 +423,8 @@ var jsVAVideo = (function (jspsych) {
      */
     trial(display_element, trial) {
       this.animate = false;
-      this.currentArousal = null;
-      this.currentValence = null;
+      this.currentAxis1 = null;
+      this.currentAxis2 = null;
       this.controllers = {};
       this.rate = trial.rate;
       this.mode = trial.mode ? trial.mode : "DEBUG";
@@ -674,7 +674,7 @@ var jsVAVideo = (function (jspsych) {
           }
           <div class="vav-measuring-needle"></div>
           <div class="vav-measuring-labels">
-            ${this.formatLabels(trial.arousal_labels)}
+            ${this.formatLabels(trial.axis1_labels)}
           </div>
         </div>
         <div id="vav-video-column">
@@ -703,7 +703,7 @@ var jsVAVideo = (function (jspsych) {
           id="vav-measuring-dimension-1"
         >
           <div class="vav-measuring-labels">
-          ${this.formatLabels(trial.valence_labels)}
+          ${this.formatLabels(trial.axis2_labels)}
           </div>
           <div class="vav-measuring-needle"></div>
           ${
@@ -717,7 +717,7 @@ var jsVAVideo = (function (jspsych) {
           id="vav-measuring-dimension-2"
         >
           <div class="vav-measuring-labels">
-          ${this.formatLabels(trial.valence_labels)}
+          ${this.formatLabels(trial.axis2_labels)}
           </div>
           <div class="vav-measuring-needle"></div>
           ${
