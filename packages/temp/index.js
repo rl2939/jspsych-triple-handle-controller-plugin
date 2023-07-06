@@ -21,13 +21,17 @@ var jsVAVideo = (function (jspsych) {
         type: jspsych.ParameterType.INT,
         default: undefined,
       },
+      axis_3: {
+        type: jspsych.ParameterType.INT,
+        default: undefined,
+      },
       mode: {
         type: jspsych.ParameterType.STRING,
         default: "DEBUG",
       },
       axes_labels: {
         type: jspsych.ParameterType.COMPLEX,
-        default: ["axis2", "axis1"],
+        default: ["axis1", "axis2", "axis3"],
       },
       axis1_labels: {
         type: jspsych.ParameterType.COMPLEX,
@@ -36,6 +40,10 @@ var jsVAVideo = (function (jspsych) {
       axis2_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["negative", "neutral", "positive"],
+      },
+      axis3_labels: {
+        type: jspsych.ParameterType.COMPLEX,
+        default: ["a", "b", "b"],
       },
       rate: {
         type: jspsych.ParameterType.INT,
@@ -100,7 +108,8 @@ var jsVAVideo = (function (jspsych) {
       for (const i in gamepads) {
         // this assumes only one plugged in controller
         if (gamepads[i] && "axes" in gamepads[i]) {
-          let axis2 = gamepads[i].axes[this.axis2],
+          let axis3 = gamepads[i].axes[this.axis3],
+            axis2 = gamepads[i].axes[this.axis2],
             axis1 = gamepads[i].axes[this.axis1 ];
           let axis2Meter = 1 - (axis2 + 1) / 2,
             axis1Meter = 1 - (axis1 + 1) / 2;
@@ -113,7 +122,16 @@ var jsVAVideo = (function (jspsych) {
             0,
             this.mapValue(axis2Meter, this.zeroThreshold, 1, 0, 1)
           );
-
+          /* this.currentAxis3 = Math.max(
+            0,
+            this.mapValue(axis3Meter, this.zeroThreshold, 1, 0, 1)
+          );
+          document
+            .getElementById("vav-measuring-dimension-2")
+            .style.setProperty(
+              `--meter-height`,
+              Math.ceil(100 * this.currentAxis3) / 100
+            );*/
           document
             .getElementById("vav-measuring-dimension-1")
             .style.setProperty(
@@ -155,19 +173,23 @@ var jsVAVideo = (function (jspsych) {
       if (gamepads.length == 0) {
         return false;
       }
-      let foundAxis2Throttle = false,
+      let foundAxis3Throttle = false,
+        foundAxis2Throttle = false,
         foundAxis1Throttle = false;
       for (const i in gamepads) {
         if (gamepads[i] && "axes" in gamepads[i]) {
+          /* if (gamepads[i].axes[this.axis3] !== undefined) {
+            foundAxis3Throttle = true;
+          } */
           if (gamepads[i].axes[this.axis2] !== undefined) {
             foundAxis2Throttle = true;
           }
-          if (gamepads[i].axes[this.axis2] !== undefined) {
+          if (gamepads[i].axes[this.axis1] !== undefined) {
             foundAxis1Throttle = true;
           }
         }
       }
-      return foundAxis2Throttle && foundAxis1Throttle;
+      return foundAxis1Throttle && foundAxis2Throttle /* && foundAxis3Throttle*/ ;
     }
 
     /**
@@ -230,16 +252,17 @@ var jsVAVideo = (function (jspsych) {
         this.recordingFeedback.innerText = "Recording";
       }
       let i = this.dataArrays.length - 1;
-      this.dataArrays[i].axis1Array.push(this.currentAxis2);
-      this.dataArrays[i].axis2Array.push(this.currentAxis1);
-      console.log(this.currentAxis2, this.currentAxis1);
+      this.dataArrays[i].axis1Array.push(this.currentAxis1);
+      this.dataArrays[i].axis2Array.push(this.currentAxis2);
+      this.dataArrays[i].axis3Array.push(this.currentAxis3);
+      console.log(this.currentAxis1, this.currentAxis2, this.currentAxis3);
     }
 
     /**
      * Resets all axis data
      */
     resetData() {
-      this.dataArrays.push({ axis1Array: [], axis2Array: [] });
+      this.dataArrays.push({ axis1Array: [], axis2Array: [], axis3Array: [] });
     }
 
     /**
@@ -425,13 +448,15 @@ var jsVAVideo = (function (jspsych) {
       this.animate = false;
       this.currentAxis1 = null;
       this.currentAxis2 = null;
+      this.currentAxis3 = null;
       this.controllers = {};
       this.rate = trial.rate;
       this.mode = trial.mode ? trial.mode : "DEBUG";
       this.interval = null;
       this.axis1  = trial.axis_1;
       this.axis2 = trial.axis_2;
-      this.dataArrays = [{ axis1Array: [], axis2Array: [] }];
+      this.axis3 = trial.axis_3;
+      this.dataArrays = [{ axis1Array: [], axis2Array: [], axis3Array: [] }];
       this.videoSrc = trial.video_src;
       /* actual zero on the throttle is `sticky,` so to avoid 
       forcing users to apply an excess of strength to move 
@@ -717,7 +742,7 @@ var jsVAVideo = (function (jspsych) {
           id="vav-measuring-dimension-2"
         >
           <div class="vav-measuring-labels">
-          ${this.formatLabels(trial.axis2_labels)}
+          ${this.formatLabels(trial.axis3_labels)}
           </div>
           <div class="vav-measuring-needle"></div>
           ${
