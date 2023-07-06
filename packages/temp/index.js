@@ -529,28 +529,25 @@ var jsVAVideo = (function (jspsych) {
           justify-content: center;
         }
 
-        #vav-measuring-dimension-0 .vav-measuring-labels, #vav-measuring-dimension-1 .vav-axis-label {
+        /* face right of bar */
+        #vav-measuring-dimension-0 .vav-measuring-labels, #vav-measuring-dimension-1 .vav-axis-label, #vav-measuring-dimension-2 .vav-axis-label  {
           transform: rotate(90deg)
             translateY(calc(var(--meter-width) * -0.5 - var(--meter-margin) * 4));
           flex-direction: row-reverse;
         }
 
-        #vav-measuring-dimension-1 .vav-measuring-labels, #vav-measuring-dimension-0 .vav-axis-label {
+        /* face left of bar */
+        #vav-measuring-dimension-1 .vav-measuring-labels, #vav-measuring-dimension-0 .vav-axis-label, #vav-measuring-dimension-2 .vav-measuring-labels {
           transform: rotate(-90deg)
             translateY(calc(var(--meter-width) * -1 + var(--meter-margin) * 3.5));
           flex-direction: row;
         }
 
-        /* #vav-measuring-dimension-2 .vav-measuring-labels, #vav-measuring-dimension-1 .vav-axis-label {
-          transform: rotate(-90deg)
-            translateY(calc(var(--meter-width) * -1 + var(--meter-margin) * 3.5));
-          flex-direction: row;
-        } */
-
+        /*
         #vav-video-container,
         #vav-measurements-plots {
           grid-column: 2;
-        }
+        } */
 
         #vav-video-container {
           display: flex;
@@ -573,6 +570,7 @@ var jsVAVideo = (function (jspsych) {
           display: flex;
           flex-direction: column;
           justify-content: space-around;
+          grid-column: 4
         }
 
         #vav-player {
@@ -714,7 +712,7 @@ var jsVAVideo = (function (jspsych) {
               : ""
           }
         </div>
-        <!-- <div
+        <div
           class="vav-measuring-needle-container"
           id="vav-measuring-dimension-2"
         >
@@ -724,10 +722,10 @@ var jsVAVideo = (function (jspsych) {
           <div class="vav-measuring-needle"></div>
           ${
             trial.axes_labels
-              ? '<div class="vav-axis-label">' + trial.axes_labels[1] + "</div>"
+              ? '<div class="vav-axis-label">' + trial.axes_labels[2] + "</div>"
               : ""
           }
-        </div> -->
+        </div>
       </div>`;
 
       this.playStr = "► Play";
