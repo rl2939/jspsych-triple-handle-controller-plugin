@@ -25,6 +25,10 @@ var jsVAVideo = (function (jspsych) {
         type: jspsych.ParameterType.INT,
         default: undefined,
       },
+      axis_location: {
+        type: jspsych.ParameterType.COMPLEX,
+        default: ["L", "", "R"],
+      },
       mode: {
         type: jspsych.ParameterType.STRING,
         default: "DEBUG",
@@ -43,7 +47,7 @@ var jsVAVideo = (function (jspsych) {
       },
       axis3_labels: {
         type: jspsych.ParameterType.COMPLEX,
-        default: ["a", "b", "b"],
+        default: ["a", "b", "c"],
       },
       rate: {
         type: jspsych.ParameterType.INT,
@@ -440,6 +444,25 @@ var jsVAVideo = (function (jspsych) {
       return labels.map((s) => "<span>" + s + "</span>").join("");
     }
 
+    /*containerFormatter(){
+      console.log(this.axis_location);
+      let leftHolder = 0;
+      let rightHolder = 0;
+      let gridBuilder = "";
+      let gridIndex = 1;
+      for (const item of this.axis_location){
+        console.log(item);
+        if (item == "L"){
+          leftHolder++;
+        } else if(item == "R"){
+          rightHolder++;
+        }
+      }
+      console.log(leftHolder, rightHolder);
+      
+      //return "50%";
+    } */
+
     /**
      * Sets up a trial to record controller in real time 
      * while watching a video.
@@ -460,6 +483,7 @@ var jsVAVideo = (function (jspsych) {
       this.axis1  = trial.axis_1;
       this.axis2 = trial.axis_2;
       this.axis3 = trial.axis_3;
+      this.axis_location = trial.axis_location;
       this.dataArrays = [{ axis1Array: [], axis2Array: [], axis3Array: [] }];
       this.videoSrc = trial.video_src;
       /* actual zero on the throttle is `sticky,` so to avoid 
@@ -467,6 +491,63 @@ var jsVAVideo = (function (jspsych) {
       the throttle out of 0, we slightly reduce the scale */
       this.zeroThreshold = 0.2;
 
+      const throttleIndexesNew = [], throttleIndexesOld = [];
+
+      let L=0, R=0;
+      let axisIndex = 0, axis1Index = 0, axis2Index = 0, axis3Index = 0, videoIndex= 0;
+
+      for (const item of this.axis_location){
+        //console.log("item = " + item);
+        if (item == "R") {
+          R++
+        }
+        else if (item == "L") {
+          L++;
+        }
+      };
+      console.log(L, R);
+
+      let gridTemplateColumns = "";
+      for (let i = 0; i < L; i++) {
+        gridTemplateColumns += " minmax(var(--measuring-needle-w), auto) "
+      }
+      gridTemplateColumns += "fit-content(960px) ";
+      for (let i = 0; i < R; i++) {
+        gridTemplateColumns += " minmax(var(--measuring-needle-w), auto) "
+      }
+      
+      console.log(gridTemplateColumns);
+      //console.log("this.axis_location[0]");
+      let i = 0;
+      for (const item2 of this.axis_location){
+        console.log("item = " + item2);
+        if(item2 == "L" ){
+          //console.log(this.axis_location[item2]);
+          throttleIndexesOld[axisIndex] = i.toString();
+          throttleIndexesNew[axisIndex] = item2;
+          //console.log(i);
+          axisIndex++;
+        } 
+        i++;
+      }
+      console.log("/////////////")
+      i = 0;
+      for (const item3 of this.axis_location){
+        console.log("item = " + item3);
+        if(item3 == "R" ){
+          //console.log(this.axis_location[item2]);
+          throttleIndexesOld[axisIndex] = i.toString();
+          throttleIndexesNew[axisIndex] = item3;
+          axisIndex++;
+        }
+        i++; 
+      }
+      //console.log(axisIndex);
+      console.log(throttleIndexesOld);
+      console.log(throttleIndexesNew);
+
+
+            
       display_element.innerHTML = `
       <style>
         :root {
@@ -483,17 +564,9 @@ var jsVAVideo = (function (jspsych) {
 
         #jsvavideo-container {
           display: grid;
-          gap: 3rem;
+          gap: 1rem;
           --measuring-needle-w: calc(var(--meter-width) + 3rem);
-          grid-template-columns: 
-            minmax(var(--measuring-needle-w), auto)
-            minmax(var(--measuring-needle-w), auto) 
-            minmax(var(--measuring-needle-w), auto) 
-            fit-content(960px) 
-            minmax(var(--measuring-needle-w), auto)
-            minmax(var(--measuring-needle-w), auto)
-            minmax(var(--measuring-needle-w), auto);
-            /*1fr 1fr 1fr fit-content(960px) 1fr 1fr 1fr*/
+          grid-template-columns:  /* 1fr 1fr 1fr 1fr */ ${gridTemplateColumns};
           width: 100%;
         }
 
@@ -532,16 +605,22 @@ var jsVAVideo = (function (jspsych) {
           );
         }
 
+        /* $ {this.axis_location[0] != "H" ?
+        "#vav-measuring-dimension-0 {\
+          grid-column: " + 0 + ";\
+        }" : ""} */
+        
         #vav-measuring-dimension-0 {
-          grid-column: 1;
-        }
-        #vav-measuring-dimension-1 {
-          grid-column: 2;
+          grid-column: ` + axis1Index + `;
         }
 
-        #vav-measuring-dimension-2 {
-          grid-column: 3;
+        #vav-measuring-dimension-1 {
+          grid-column: ` + axis2Index + `;
         }
+
+         #vav-measuring-dimension-2 {
+          grid-column: ` + axis3Index + `;
+        } 
 
         .vav-measuring-labels, .vav-axis-label {
           display: flex;
@@ -599,7 +678,7 @@ var jsVAVideo = (function (jspsych) {
           display: flex;
           flex-direction: column;
           justify-content: space-around;
-          grid-column: 4
+          grid-column: ${videoIndex}
         }
 
         #vav-player {
