@@ -3,7 +3,7 @@ var jsVAVideo = (function (jspsych) {
 
   /* Set up constants */
   const info = {
-    name: "axis2-axis1 video annotation",
+    name: "3-axis video annotation",
     parameters: {
       title: {
         type: jspsych.ParameterType.STRING,
@@ -111,8 +111,9 @@ var jsVAVideo = (function (jspsych) {
           let axis3 = gamepads[i].axes[this.axis3],
             axis2 = gamepads[i].axes[this.axis2],
             axis1 = gamepads[i].axes[this.axis1 ];
-          let axis2Meter = 1 - (axis2 + 1) / 2,
-            axis1Meter = 1 - (axis1 + 1) / 2;
+          let axis3Meter = 1 - (axis3 + 1) / 2,
+          axis2Meter = 1 - (axis2 + 1) / 2,
+          axis1Meter = 1 - (axis1 + 1) / 2;
 
           this.currentAxis1 = Math.max(
             0,
@@ -122,7 +123,7 @@ var jsVAVideo = (function (jspsych) {
             0,
             this.mapValue(axis2Meter, this.zeroThreshold, 1, 0, 1)
           );
-          /* this.currentAxis3 = Math.max(
+          this.currentAxis3 = Math.max(
             0,
             this.mapValue(axis3Meter, this.zeroThreshold, 1, 0, 1)
           );
@@ -131,7 +132,7 @@ var jsVAVideo = (function (jspsych) {
             .style.setProperty(
               `--meter-height`,
               Math.ceil(100 * this.currentAxis3) / 100
-            );*/
+            );
           document
             .getElementById("vav-measuring-dimension-1")
             .style.setProperty(
@@ -178,9 +179,9 @@ var jsVAVideo = (function (jspsych) {
         foundAxis1Throttle = false;
       for (const i in gamepads) {
         if (gamepads[i] && "axes" in gamepads[i]) {
-          /* if (gamepads[i].axes[this.axis3] !== undefined) {
+          if (gamepads[i].axes[this.axis3] !== undefined) {
             foundAxis3Throttle = true;
-          } */
+          }
           if (gamepads[i].axes[this.axis2] !== undefined) {
             foundAxis2Throttle = true;
           }
@@ -189,7 +190,7 @@ var jsVAVideo = (function (jspsych) {
           }
         }
       }
-      return foundAxis1Throttle && foundAxis2Throttle /* && foundAxis3Throttle*/ ;
+      return foundAxis1Throttle && foundAxis2Throttle && foundAxis3Throttle ;
     }
 
     /**
@@ -242,6 +243,7 @@ var jsVAVideo = (function (jspsych) {
       if (
         this.currentAxis1 == null ||
         this.currentAxis2 == null ||
+        this.currentAxis3 == null ||
         this.videoPlayer.paused ||
         !this.recordingData
       ) {
