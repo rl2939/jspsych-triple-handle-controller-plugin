@@ -301,6 +301,7 @@ var jsVAVideo = (function (jspsych) {
       this.videoPlayer.classList.add("recording");
       this.measuringNeedles[0].classList.add("recording");
       this.measuringNeedles[1].classList.add("recording");
+      this.measuringNeedles[2].classList.add("recording");
       this.recordBtn.textContent = this.pauseStr;
       this.recordBtn.classList.add("active-btn");
       this.playBtn.disabled = true;
@@ -315,6 +316,7 @@ var jsVAVideo = (function (jspsych) {
       this.videoPlayer.classList.remove("recording");
       this.measuringNeedles[0].classList.remove("recording");
       this.measuringNeedles[1].classList.remove("recording");
+      this.measuringNeedles[2].classList.remove("recording");
       this.recordBtn.textContent = this.recordStr;
       this.recordBtn.classList.remove("active-btn");
       this.playBtn.disabled = false;
@@ -384,7 +386,7 @@ var jsVAVideo = (function (jspsych) {
         this.videoPlayer.classList.remove("recording", "playing");
         this.measuringNeedles[0].classList.remove("recording");
         this.measuringNeedles[1].classList.remove("recording");
-
+        this.measuringNeedles[2].classList.remove("recording"); 
         // unlocks data button
         this.saveBtn.disabled = false;
       } else {
@@ -484,14 +486,14 @@ var jsVAVideo = (function (jspsych) {
           gap: 3rem;
           --measuring-needle-w: calc(var(--meter-width) + 3rem);
           grid-template-columns: 
-            /*minmax(var(--measuring-needle-w), auto)
+            minmax(var(--measuring-needle-w), auto)
             minmax(var(--measuring-needle-w), auto) 
             minmax(var(--measuring-needle-w), auto) 
             fit-content(960px) 
             minmax(var(--measuring-needle-w), auto)
             minmax(var(--measuring-needle-w), auto)
-            minmax(var(--measuring-needle-w), auto);*/
-            1fr 1fr 1fr fit-content(960px) 1fr 1fr 1fr
+            minmax(var(--measuring-needle-w), auto);
+            /*1fr 1fr 1fr fit-content(960px) 1fr 1fr 1fr*/
           width: 100%;
         }
 
@@ -534,11 +536,11 @@ var jsVAVideo = (function (jspsych) {
           grid-column: 1;
         }
         #vav-measuring-dimension-1 {
-          grid-column: 3;
+          grid-column: 2;
         }
 
         #vav-measuring-dimension-2 {
-          grid-column: 6;
+          grid-column: 3;
         }
 
         .vav-measuring-labels, .vav-axis-label {
