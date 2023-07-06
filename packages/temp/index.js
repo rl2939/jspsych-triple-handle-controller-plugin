@@ -13,7 +13,11 @@ var jsVAVideo = (function (jspsych) {
         type: jspsych.ParameterType.STRING,
         default: undefined,
       },
-      throttle_valence_axis: {
+      axis_1: {
+        type: jspsych.ParameterType.INT,
+        default: undefined,
+      },
+      axis_2: {
         type: jspsych.ParameterType.INT,
         default: undefined,
       },
@@ -32,10 +36,6 @@ var jsVAVideo = (function (jspsych) {
       arousal_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["low", "neutral", "high"],
-      },
-      throttle_arousal_axis: {
-        type: jspsych.ParameterType.INT,
-        default: undefined,
       },
       rate: {
         type: jspsych.ParameterType.INT,
@@ -100,8 +100,8 @@ var jsVAVideo = (function (jspsych) {
       for (const i in gamepads) {
         // this assumes only one plugged in controller
         if (gamepads[i] && "axes" in gamepads[i]) {
-          let valence = gamepads[i].axes[this.throttleValenceAxis],
-            arousal = gamepads[i].axes[this.throttleArousalAxis];
+          let valence = gamepads[i].axes[this.axis2],
+            arousal = gamepads[i].axes[this.axis1 ];
           let valenceMeter = 1 - (valence + 1) / 2,
             arousalMeter = 1 - (arousal + 1) / 2;
 
@@ -159,10 +159,10 @@ var jsVAVideo = (function (jspsych) {
         foundArousalThrottle = false;
       for (const i in gamepads) {
         if (gamepads[i] && "axes" in gamepads[i]) {
-          if (gamepads[i].axes[this.throttleValenceAxis] !== undefined) {
+          if (gamepads[i].axes[this.axis2] !== undefined) {
             foundValenceThrottle = true;
           }
-          if (gamepads[i].axes[this.throttleValenceAxis] !== undefined) {
+          if (gamepads[i].axes[this.axis2] !== undefined) {
             foundArousalThrottle = true;
           }
         }
@@ -230,8 +230,8 @@ var jsVAVideo = (function (jspsych) {
         this.recordingFeedback.innerText = "Recording";
       }
       let i = this.dataArrays.length - 1;
-      this.dataArrays[i].valence.push(this.currentValence);
-      this.dataArrays[i].arousal.push(this.currentArousal);
+      this.dataArrays[i].axis1Array.push(this.currentValence);
+      this.dataArrays[i].axis2Array.push(this.currentArousal);
       console.log(this.currentValence, this.currentArousal);
     }
 
@@ -239,7 +239,7 @@ var jsVAVideo = (function (jspsych) {
      * Resets all axis data
      */
     resetData() {
-      this.dataArrays.push({ valence: [], arousal: [] });
+      this.dataArrays.push({ axis1Array: [], axis2Array: [] });
     }
 
     /**
@@ -423,15 +423,15 @@ var jsVAVideo = (function (jspsych) {
      */
     trial(display_element, trial) {
       this.animate = false;
-      this.currentValence = null;
       this.currentArousal = null;
+      this.currentValence = null;
       this.controllers = {};
       this.rate = trial.rate;
       this.mode = trial.mode ? trial.mode : "DEBUG";
       this.interval = null;
-      this.throttleValenceAxis = trial.throttle_valence_axis;
-      this.throttleArousalAxis = trial.throttle_arousal_axis;
-      this.dataArrays = [{ valence: [], arousal: [] }];
+      this.axis1  = trial.axis_1;
+      this.axis2 = trial.axis_2;
+      this.dataArrays = [{ axis1Array: [], axis2Array: [] }];
       this.videoSrc = trial.video_src;
       /* actual zero on the throttle is `sticky,` so to avoid 
       forcing users to apply an excess of strength to move 

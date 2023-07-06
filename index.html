@@ -101,12 +101,12 @@
       let experiment = [
         {
           type: jsVAVideo,
-          throttle_valence_axis: 2,
-          throttle_arousal_axis: 0,
+          axis_1: 0,
+          axis_2: 1,
           valence_labels: ["negative", "neutral", "positive"],
           arousal_labels: ["low", "neutral", "high"],
           css_clases: ["vav-override"],
-          axes_labels: ["arousal", "valence", "item 3"],
+          axes_labels: ["arousal (axis 1)", "valence (axis 2)", "item 3 (axis 3)"],
           title: "",
           // from the full throttle paper: a monitor refresh rate of 60 Hz meant
           // that their position could be mapped on to changes on screen every 16.7 ms
