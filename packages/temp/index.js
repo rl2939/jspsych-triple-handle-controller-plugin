@@ -27,7 +27,7 @@ var jsVAVideo = (function (jspsych) {
       },
       axis_location: {
         type: jspsych.ParameterType.COMPLEX,
-        default: ["L", "", "R"],
+        default: ["L", "H", "R"],
       },
       mode: {
         type: jspsych.ParameterType.STRING,
@@ -131,24 +131,36 @@ var jsVAVideo = (function (jspsych) {
             0,
             this.mapValue(axis3Meter, this.zeroThreshold, 1, 0, 1)
           );
-          document
-            .getElementById("vav-measuring-dimension-2")
-            .style.setProperty(
-              `--meter-height`,
-              Math.ceil(100 * this.currentAxis3) / 100
-            );
-          document
-            .getElementById("vav-measuring-dimension-1")
-            .style.setProperty(
-              `--meter-height`,
-              Math.ceil(100 * this.currentAxis2) / 100
-            );
-          document
-            .getElementById("vav-measuring-dimension-0")
-            .style.setProperty(
-              `--meter-height`,
-              Math.ceil(100 * this.currentAxis1) / 100
-            );
+          try{
+            document
+              .getElementById("vav-measuring-dimension-2")
+              .style.setProperty(
+                `--meter-height`,
+                Math.ceil(100 * this.currentAxis3) / 100
+              );
+          } catch {
+
+          }
+          try{
+            document
+              .getElementById("vav-measuring-dimension-1")
+              .style.setProperty(
+                `--meter-height`,
+                Math.ceil(100 * this.currentAxis2) / 100
+              );
+          } catch {
+
+          }
+          try{
+            document
+              .getElementById("vav-measuring-dimension-0")
+              .style.setProperty(
+                `--meter-height`,
+                Math.ceil(100 * this.currentAxis1) / 100
+              );
+          } catch {
+
+          }
         }
       }
       requestAnimationFrame(this.updateStatus);
@@ -509,22 +521,22 @@ var jsVAVideo = (function (jspsych) {
 
       let gridTemplateColumns = "";
       for (let i = 0; i < L; i++) {
-        gridTemplateColumns += " minmax(var(--measuring-needle-w), auto) "
+        gridTemplateColumns += " minmax(var(--measuring-needle-w), auto) " /*" minmax(20%, 40%) "*/ /*"1rem"*/
       }
-      gridTemplateColumns += "fit-content(960px) ";
+      gridTemplateColumns += "minmax(max-content, 960px) " /*"3rem"*/;
       for (let i = 0; i < R; i++) {
-        gridTemplateColumns += " minmax(var(--measuring-needle-w), auto) "
+        gridTemplateColumns += " minmax(var(--measuring-needle-w), auto) " /*" minmax(20%, 40%) "*/ /*"1rem"*/
       }
       
       console.log(gridTemplateColumns);
       //console.log("this.axis_location[0]");
       let i = 0;
-      for (const item2 of this.axis_location){
-        console.log("item = " + item2);
-        if(item2 == "L" ){
+      for (const j of this.axis_location){
+        console.log("item = " + j);
+        if(j == "L" ){
           //console.log(this.axis_location[item2]);
           throttleIndexesOld[axisIndex] = i.toString();
-          throttleIndexesNew[axisIndex] = item2;
+          throttleIndexesNew[axisIndex] = j;
           //console.log(i);
           axisIndex++;
         } 
@@ -532,12 +544,24 @@ var jsVAVideo = (function (jspsych) {
       }
       console.log("/////////////");
       i = 0;
-      for (const item3 of this.axis_location){
-        console.log("item = " + item3);
-        if(item3 == "R" ){
+      for (const j of this.axis_location){
+        console.log("item = " + j);
+        if(j == "R" ){
           //console.log(this.axis_location[item2]);
           throttleIndexesOld[axisIndex] = i.toString();
-          throttleIndexesNew[axisIndex] = item3;
+          throttleIndexesNew[axisIndex] = j;
+          axisIndex++;
+        }
+        i++; 
+      }
+      console.log("/////////////");
+      i = 0;
+      for (const j of this.axis_location){
+        console.log("item = " + j);
+        if(j == "H" ){
+          console.log(this.axis_location[j]);
+          throttleIndexesOld[axisIndex] = i.toString();
+          throttleIndexesNew[axisIndex] = j;
           axisIndex++;
         }
         i++; 
@@ -549,10 +573,6 @@ var jsVAVideo = (function (jspsych) {
 
       i = 0;
       for (const [j, value] of throttleIndexesOld.entries()) {
-        //console.log('%d: %s', j, value);
-        //console.log(throttleIndexesNew[j]);
-        //console.log("axis"+value+"Index");
-
         let valueInt = parseInt(value);
         // Add 1 to valueInt, as the var names are 1 indexed
         let varNameNumber = valueInt + 1
@@ -565,6 +585,8 @@ var jsVAVideo = (function (jspsych) {
         } else if (throttleIndexesNew[j] == "R"){
           //console.log(j + 1);
           axisColValue = j + 2;
+        } else {
+          axisColValue = -1;
         }
 
         if (varNameNumber == 1){
@@ -574,11 +596,7 @@ var jsVAVideo = (function (jspsych) {
         } else if (varNameNumber == 3){
           axis3Index = axisColValue;
         }
-        // the grid index starts at 1, so we add 1
-        /* window["axis"+varNameNumber+"Index"] = axisColValue + 1;
-        console.log("axis" + varNameNumber + "Index = " + window["axis"+varNameNumber+"Index"]);
-        debugger; */
-    }
+      }
             
       display_element.innerHTML = `
       <style>
@@ -596,7 +614,7 @@ var jsVAVideo = (function (jspsych) {
 
         #jsvavideo-container {
           display: grid;
-          gap: 1rem;
+          gap: 3rem;
           --measuring-needle-w: calc(var(--meter-width) + 3rem);
           grid-template-columns:  /* 1fr 1fr 1fr 1fr */ ${gridTemplateColumns};
           width: 100%;
@@ -803,24 +821,10 @@ var jsVAVideo = (function (jspsych) {
       </div>
       <div id="recording-feedback">...</div>
       <div id="jsvavideo-container">
-        <div
-          class="vav-measuring-needle-container"
-          id="vav-measuring-dimension-0"
-        >
-          ${
-            trial.axes_labels
-              ? '<div class="vav-axis-label">' + trial.axes_labels[0] + "</div>"
-              : ""
-          }
-          <div class="vav-measuring-needle"></div>
-          <div class="vav-measuring-labels">
-            ${this.formatLabels(trial.axis1_labels)}
-          </div>
-        </div>
         <div id="vav-video-column">
           <div id="vav-video-container">
             ${trial.title ? '<h1 id="vav-title">' + trial.title + "</h1>" : ""}
-            <video id="vav-player" src="${
+            <video id="vav-player" width="100%" src="${
               trial.video_src ? trial.video_src : ""
             }"></video>
             <div id="vav-video-toolbar">
@@ -838,34 +842,55 @@ var jsVAVideo = (function (jspsych) {
           </div>
           <div id="vav-measurements-plots"></div>
         </div>
-        <div
-          class="vav-measuring-needle-container"
-          id="vav-measuring-dimension-1"
-        >
-          <div class="vav-measuring-labels">
-          ${this.formatLabels(trial.axis2_labels)}
-          </div>
-          <div class="vav-measuring-needle"></div>
-          ${
-            trial.axes_labels
-              ? '<div class="vav-axis-label">' + trial.axes_labels[1] + "</div>"
-              : ""
-          }
-        </div>
-        <div
+        ${axis1Index != -1 ?
+          `<div
+            class="vav-measuring-needle-container"
+            id="vav-measuring-dimension-0"
+          >
+            ${
+              trial.axes_labels
+                ? '<div class="vav-axis-label">' + trial.axes_labels[0] + "</div>"
+                : ""
+            }
+            <div class="vav-measuring-needle"></div>
+            <div class="vav-measuring-labels">
+              ${this.formatLabels(trial.axis1_labels)}
+            </div>
+          </div>` : ``
+        }
+        ${axis2Index != -1 ?
+          `<div
+            class="vav-measuring-needle-container"
+            id="vav-measuring-dimension-1"
+          >
+            <div class="vav-measuring-needle"></div>
+            ${
+              trial.axes_labels
+                ? '<div class="vav-axis-label">' + trial.axes_labels[1] + "</div>"
+                : ""
+            }
+            <div class="vav-measuring-labels">
+              ${this.formatLabels(trial.axis2_labels)}
+            </div>
+          </div>` : ``
+        }
+        ${axis3Index != -1 ?
+        `<div
           class="vav-measuring-needle-container"
           id="vav-measuring-dimension-2"
         >
-          <div class="vav-measuring-labels">
-          ${this.formatLabels(trial.axis3_labels)}
-          </div>
+
           <div class="vav-measuring-needle"></div>
           ${
             trial.axes_labels
               ? '<div class="vav-axis-label">' + trial.axes_labels[2] + "</div>"
               : ""
           }
-        </div>
+          <div class="vav-measuring-labels">
+            ${this.formatLabels(trial.axis3_labels)}
+          </div>
+        </div>` : ``
+        }
       </div>`;
 
       this.playStr = "► Play";
