@@ -1,4 +1,4 @@
-# my-plugin-name plugin OR my-extension-name extension
+#  triple-lever-controller plugin
 
 ## Overview
 
