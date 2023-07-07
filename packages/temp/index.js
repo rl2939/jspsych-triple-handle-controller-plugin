@@ -530,7 +530,7 @@ var jsVAVideo = (function (jspsych) {
         } 
         i++;
       }
-      console.log("/////////////")
+      console.log("/////////////");
       i = 0;
       for (const item3 of this.axis_location){
         console.log("item = " + item3);
@@ -545,8 +545,40 @@ var jsVAVideo = (function (jspsych) {
       //console.log(axisIndex);
       console.log(throttleIndexesOld);
       console.log(throttleIndexesNew);
+      console.log("/////////////");
 
+      i = 0;
+      for (const [j, value] of throttleIndexesOld.entries()) {
+        //console.log('%d: %s', j, value);
+        //console.log(throttleIndexesNew[j]);
+        //console.log("axis"+value+"Index");
 
+        let valueInt = parseInt(value);
+        // Add 1 to valueInt, as the var names are 1 indexed
+        let varNameNumber = valueInt + 1
+        let axisColValue = 0;
+        console.log("The axis number is = " + varNameNumber);
+        // Column values are 1 indexed
+        if(throttleIndexesNew[j] == "L"){
+          //console.log(j);
+          axisColValue = j + 1;
+        } else if (throttleIndexesNew[j] == "R"){
+          //console.log(j + 1);
+          axisColValue = j + 2;
+        }
+
+        if (varNameNumber == 1){
+          axis1Index = axisColValue;
+        } else if (varNameNumber == 2){
+          axis2Index = axisColValue;
+        } else if (varNameNumber == 3){
+          axis3Index = axisColValue;
+        }
+        // the grid index starts at 1, so we add 1
+        /* window["axis"+varNameNumber+"Index"] = axisColValue + 1;
+        console.log("axis" + varNameNumber + "Index = " + window["axis"+varNameNumber+"Index"]);
+        debugger; */
+    }
             
       display_element.innerHTML = `
       <style>
