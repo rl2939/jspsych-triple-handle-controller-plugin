@@ -521,12 +521,12 @@ var jsVAVideo = (function (jspsych) {
       let gridTemplateColumns = "";
       for (let i = 0; i < L; i++) {
         gridTemplateColumns +=
-          " minmax(var(--measuring-needle-w), auto) "; /*" minmax(20%, 40%) "*/ /*"1rem"*/
+          " minmax(min-content, var(--measuring-needle-w)) ";
       }
-      gridTemplateColumns += "minmax(max-content, 960px) " /*"3rem"*/;
+      gridTemplateColumns += " minmax(min-content, auto) ";
       for (let i = 0; i < R; i++) {
         gridTemplateColumns +=
-          " minmax(var(--measuring-needle-w), auto) "; /*" minmax(20%, 40%) "*/ /*"1rem"*/
+          " minmax(min-content, var(--measuring-needle-w)) ";
       }
 
       console.log(gridTemplateColumns);
@@ -608,6 +608,7 @@ var jsVAVideo = (function (jspsych) {
           --meter-margin: 3px;
           --meter-max-height: 80vh;
           --roundness: 3rem;
+          --needle-gap: 3rem;
           --fast-transition: 0.2s;
           --meter-bg: 0, 0, 0;
           --meter-fg: 0, 0, 0;
@@ -616,9 +617,12 @@ var jsVAVideo = (function (jspsych) {
 
         #jsvavideo-container {
           display: grid;
-          gap: 3rem;
-          --measuring-needle-w: calc(var(--meter-width) + 3rem);
-          grid-template-columns:  /* 1fr 1fr 1fr 1fr */ ${gridTemplateColumns};
+          gap: var(--needle-gap);
+          padding-left: var(--needle-gap);
+          padding-right: var(--needle-gap);
+          box-sizing: border-box;
+          --measuring-needle-w: calc(var(--meter-width) + var(--needle-gap));
+          grid-template-columns: ${gridTemplateColumns};
           width: 100%;
         }
 
@@ -718,6 +722,8 @@ var jsVAVideo = (function (jspsych) {
         #vav-video-container {
           display: flex;
           flex-direction: column;
+          width: 100%;
+          max-width: 960px;
           gap: 1rem;
         }
 
@@ -735,6 +741,7 @@ var jsVAVideo = (function (jspsych) {
         #vav-video-column {
           display: flex;
           flex-direction: column;
+          align-items: center;
           justify-content: space-around;
           grid-column: ${videoIndex}
         }
