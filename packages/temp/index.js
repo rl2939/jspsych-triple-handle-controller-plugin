@@ -274,6 +274,7 @@ var jsVAVideo = (function (jspsych) {
      * Resets all axis data
      */
     resetData() {
+      this.dataArrays.pop()
       this.dataArrays.push({ axis1Array: [], axis2Array: [], axis3Array: [] });
     }
 
