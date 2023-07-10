@@ -1,5 +1,3 @@
 node_modules
-./videos/ID120_vid4.mp4
-/videos
-videos
+./examples/videos/ID120_vid4.mp4
 .DS_Store
