@@ -1,5 +1,7 @@
 #  triple-lever-controller plugin
 
+TODO: Add details to loading, compatibility, and Author/Citations.
+
 ## Overview
 
 This plugin collects responses to an video file in real time using a game controller.
@@ -28,7 +30,7 @@ For use with: "jsPsych v7.x.x" (give specific version).
 
 ## Documentation
 
-Link to documentation file in /docs folder, or add documentation to the readme.
+The documentaion can be read [here](/docs/index.md).
 
 ## Author / Citation
 
