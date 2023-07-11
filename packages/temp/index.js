@@ -350,13 +350,14 @@ var jsVAVideo = (function (jspsych) {
       if (this.playBtn.textContent == this.playStr) {
         if (this.recordingData) {
           // ask user if they want to reset previous recording
-          if (
+          /*if (
             !window.confirm(
               `There is a current recording in progress. Do you want to erase it?`
             )
           ) {
+            console.log("where is this message")
             return;
-          }
+          }*/
           this.stopRecording();
           this.videoPlayer.currentTime = 0;
         }
@@ -416,13 +417,13 @@ var jsVAVideo = (function (jspsych) {
         // fine to call it just in case
         this.pauseRecording();
       }
-      if (
+      /*if (
         !window.confirm(
           `This will remove the already recorded data and start again. Are you sure?`
         )
       ) {
         return;
-      }
+      }*/
       this.videoPlayer.currentTime = 0;
       this.resetData();
       this.recordBtn.disabled = false;
