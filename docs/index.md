@@ -70,7 +70,7 @@ import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
 
 ???+ example "Simple spoken response to a stimulus"
 === "Code"
-`javascript
+```javascript
         var experiment = [
             {
                 type: jsTripleHandleController,
@@ -90,7 +90,7 @@ import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
                 rate: 1000 / 60,
             },
         ];
-        `
+        ```
 
     === "Demo"
         <div style="text-align:center;">
