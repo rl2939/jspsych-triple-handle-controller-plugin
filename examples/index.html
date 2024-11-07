@@ -6,8 +6,7 @@
     <title>Axis1/Axis2/Axis3 Measurements</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://unpkg.com/jspsych@7.3"></script>
-    <!-- <script src="https://unpkg.com/jspsych@8.0"></script> -->
+    <script src="https://unpkg.com/jspsych@8.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-instructions@1.0.0"></script>
     <script src="../src/index.js"></script>
     <link
@@ -60,15 +59,12 @@
       let jsPsych = initJsPsych({
         on_finish: function () {
           jsPsych.data.displayData();
-          
         },
       });
       const subjectId = jsPsych.randomization.randomID(10);
       const filename = `${subjectId}.json`;
 
-      const videos = [
-        "BulletTrainFriction.webm",
-      ];
+      const videos = ["BulletTrainFriction.webm"];
 
       jsPsych.data.addProperties({
         subject: subjectId,
@@ -85,7 +81,7 @@
           axis1_labels: ["low", "neutral", "high"],
           css_clases: ["vav-override"],
           axes_labels: ["axis1 (axis 1)", "axis2 (axis 2)", "item 3 (axis 3)"],
-          title: "",
+          title: "Bullet Train Friction",
           // from the full throttle paper: a monitor refresh rate of 60 Hz meant
           // that their position could be mapped on to changes on screen every 16.7 ms
           // or higher. Device co-ordinates were thus recorded in intervals of 1-2
