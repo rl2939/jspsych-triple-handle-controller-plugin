@@ -41,28 +41,31 @@ var jsVAVideo = (function (jspsych) {
       video_src: {
         type: jspsych.ParameterType.STRING,
         default: undefined,
-        description: "The source URL of the video",  
+        description: "The source URL of the video",
       },
       axis_1: {
         type: jspsych.ParameterType.INT,
         default: undefined,
-        description: "Indices of the game controller axis that will control measurement axis 1."
+        description:
+          "Indices of the game controller axis that will control measurement axis 1.",
       },
       axis_2: {
         type: jspsych.ParameterType.INT,
         default: undefined,
-        description: "Indices of the game controller axis that will control measurement axis 2."
+        description:
+          "Indices of the game controller axis that will control measurement axis 2.",
       },
       axis_3: {
         type: jspsych.ParameterType.INT,
         default: undefined,
-        description: "Indices of the game controller axis that will control measurement axis 3."
+        description:
+          "Indices of the game controller axis that will control measurement axis 3.",
       },
       axis_location: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["L", "H", "R"],
-        array: true,
-        description: "The location of the axes on the screen. L = left, H = hidden, R = right.",
+        description:
+          "The location of the axes on the screen. L = left, H = hidden, R = right.",
       },
       mode: {
         type: jspsych.ParameterType.STRING,
@@ -72,25 +75,21 @@ var jsVAVideo = (function (jspsych) {
       axes_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["axis1", "axis2", "axis3"],
-        array: true,
         description: "Labels for each axis",
       },
       axis1_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["low", "neutral", "high"],
-        array: true,
         description: "Labels for the scales of axis 1",
       },
       axis2_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["negative", "neutral", "positive"],
-        array: true,
         description: "Labels for the scales of axis 2",
       },
       axis3_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["a", "b", "c"],
-        array: true,
         description: "Labels for the scales of axis 3",
       },
       rate: {
@@ -113,6 +112,14 @@ var jsVAVideo = (function (jspsych) {
   class jsVAVideoPlugin {
     constructor(jsPsych) {
       this.jsPsych = jsPsych;
+      this.playButtonClick = this.playButtonClick.bind(this);
+      this.recordButtonClick = this.recordButtonClick.bind(this);
+      this.resetButtonClick = this.resetButtonClick.bind(this);
+      this.saveButtonClick = this.saveButtonClick.bind(this);
+      this.updateStatus = this.updateStatus.bind(this);
+      this.connectHandler = this.connectHandler.bind(this);
+      this.disconnectHandler = this.disconnectHandler.bind(this);
+      this.videoEnded = this.videoEnded.bind(this);
     }
 
     /**
@@ -319,7 +326,7 @@ var jsVAVideo = (function (jspsych) {
      * Resets all axis data
      */
     resetData() {
-      this.dataArrays.pop()
+      this.dataArrays.pop();
       this.dataArrays.push({ axis1Array: [], axis2Array: [], axis3Array: [] });
     }
 
@@ -536,7 +543,7 @@ var jsVAVideo = (function (jspsych) {
       this.axis1 = trial.axis_1;
       this.axis2 = trial.axis_2;
       this.axis3 = trial.axis_3;
-      this.axis_location = trial.axis_axis_location;
+      this.axis_location = trial.axis_location;
       this.dataArrays = [{ axis1Array: [], axis2Array: [], axis3Array: [] }];
       this.videoSrc = trial.video_src;
       /* actual zero on the throttle is `sticky,` so to avoid 
