@@ -18,7 +18,7 @@
  *  - **title**: The title displayed above the video.
  *  - **video_src**: The source URL of the video to be annotated.
  *  - **axis_1**, **axis_2**, **axis_3**: Indices of the game controller axes to be used.
- *  - **axis_location**: Positions of the axes indicators on the screen ("L", "H", "R").
+ *  - **axis_location**: The location of the axes on the screen. L = left, H = hidden, R = right.
  *  - **mode**: Mode of operation (e.g., "DEBUG").
  *  - **axes_labels**: Labels for each axis.
  *  - **axis1_labels**, **axis2_labels**, **axis3_labels**: Labels for the scales of each axis.
@@ -31,54 +31,72 @@ var jsVAVideo = (function (jspsych) {
   /* Set up constants */
   const info = {
     name: "3-axis video annotation",
+    version: "0.1.0",
     parameters: {
       title: {
         type: jspsych.ParameterType.STRING,
         default: undefined,
+        description: "The title displayed above the video",
       },
       video_src: {
         type: jspsych.ParameterType.STRING,
         default: undefined,
+        description: "The source URL of the video",  
       },
       axis_1: {
         type: jspsych.ParameterType.INT,
         default: undefined,
+        description: "Indices of the game controller axis that will control measurement axis 1."
       },
       axis_2: {
         type: jspsych.ParameterType.INT,
         default: undefined,
+        description: "Indices of the game controller axis that will control measurement axis 2."
       },
       axis_3: {
         type: jspsych.ParameterType.INT,
         default: undefined,
+        description: "Indices of the game controller axis that will control measurement axis 3."
       },
       axis_location: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["L", "H", "R"],
+        array: true,
+        description: "The location of the axes on the screen. L = left, H = hidden, R = right.",
       },
       mode: {
         type: jspsych.ParameterType.STRING,
         default: "DEBUG",
+        description: "Mode of operation (e.g., 'DEBUG').",
       },
       axes_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["axis1", "axis2", "axis3"],
+        array: true,
+        description: "Labels for each axis",
       },
       axis1_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["low", "neutral", "high"],
+        array: true,
+        description: "Labels for the scales of axis 1",
       },
       axis2_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["negative", "neutral", "positive"],
+        array: true,
+        description: "Labels for the scales of axis 2",
       },
       axis3_labels: {
         type: jspsych.ParameterType.COMPLEX,
         default: ["a", "b", "c"],
+        array: true,
+        description: "Labels for the scales of axis 3",
       },
       rate: {
         type: jspsych.ParameterType.INT,
         default: 1000,
+        description: "The sampling rate in milliseconds",
       },
     },
   };
@@ -518,7 +536,7 @@ var jsVAVideo = (function (jspsych) {
       this.axis1 = trial.axis_1;
       this.axis2 = trial.axis_2;
       this.axis3 = trial.axis_3;
-      this.axis_location = trial.axis_location;
+      this.axis_location = trial.axis_axis_location;
       this.dataArrays = [{ axis1Array: [], axis2Array: [], axis3Array: [] }];
       this.videoSrc = trial.video_src;
       /* actual zero on the throttle is `sticky,` so to avoid 
