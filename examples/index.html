@@ -7,9 +7,9 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://unpkg.com/jspsych@7.3"></script>
+    <!-- <script src="https://unpkg.com/jspsych@8.0"></script> -->
     <script src="https://unpkg.com/@jspsych/plugin-instructions@1.0.0"></script>
-    <script src="../packages/temp/index.js"></script>
-    <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe"></script>
+    <script src="../src/index.js"></script>
     <link
       href="https://unpkg.com/jspsych@7.3.0/css/jspsych.css"
       rel="stylesheet"
@@ -59,25 +59,12 @@
     <script>
       let jsPsych = initJsPsych({
         on_finish: function () {
-          if (mode == "DEBUG") {
-            jsPsych.data.displayData();
-          } else {
-            window.location.href = "/thank-you.html";
-          }
+          jsPsych.data.displayData();
+          
         },
       });
       const subjectId = jsPsych.randomization.randomID(10);
       const filename = `${subjectId}.json`;
-      const mode = "DEBUG";
-      const saveData = false;
-
-      const save_data = {
-        type: jsPsychPipe,
-        action: "save",
-        experiment_id: "X5XRFJ7MCxZ1",
-        filename: filename,
-        data_string: () => jsPsych.data.get().json(),
-      };
 
       const videos = [
         "BulletTrainFriction.webm",
@@ -85,7 +72,6 @@
 
       jsPsych.data.addProperties({
         subject: subjectId,
-        mode,
       });
 
       let experiment = [
@@ -108,14 +94,8 @@
         },
       ];
 
-      if (saveData) {
-        experiment.push(save_data);
-      }
-
       async function createExperiment() {
-        const condition = await jsPsychPipe.getCondition("insert_experiment_id_here");
         const videoSrc = `./videos/${videos[0]}`;
-        // const videoSrc = `./videos/short.mp4`;
         experiment[0].video_src = videoSrc;
         jsPsych.run(experiment);
       }
