@@ -1,3 +1,29 @@
+/**
+ * jspsych-vavideo
+ * version 0.1.0
+ *
+ * A jsPsych plugin for real-time annotation of videos using a game controller.
+ *
+ * Created by Caluã de Lacerda Pataca and Russell Lee
+ *
+ * This plugin allows participants to watch a video and use a game controller to provide continuous ratings along three axes in real time. The plugin records the data at specified intervals and provides a visual representation of the controller's axes on the screen.
+ *
+ * Features:
+ *  - Collects real-time responses to a video using a game controller with multiple axes.
+ *  - Displays visual feedback of the controller's axes on the screen.
+ *  - Allows recording, playing, and resetting of annotations.
+ *
+ *
+ * Parameters:
+ *  - **title**: The title displayed above the video.
+ *  - **video_src**: The source URL of the video to be annotated.
+ *  - **axis_1**, **axis_2**, **axis_3**: Indices of the game controller axes to be used.
+ *  - **axis_location**: Positions of the axes indicators on the screen ("L", "H", "R").
+ *  - **mode**: Mode of operation (e.g., "DEBUG").
+ *  - **axes_labels**: Labels for each axis.
+ *  - **axis1_labels**, **axis2_labels**, **axis3_labels**: Labels for the scales of each axis.
+ *  - **rate**: The sampling rate (in milliseconds) for recording data.
+ */
 
 var jsVAVideo = (function (jspsych) {
   "use strict";
