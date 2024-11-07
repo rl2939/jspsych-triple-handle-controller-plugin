@@ -1,4 +1,4 @@
-#  triple-lever-controller plugin
+# triple-handle-controller plugin
 
 TODO: Add details to loading, compatibility, and Author/Citations.
 
@@ -21,12 +21,12 @@ npm install @jspsych-contrib/my-package-name
 ```
 
 ```js
-import jsPsychPluginName from '@jspsych-contrib/my-package-name';
+import jsPsychPluginName from "@jspsych-contrib/my-package-name";
 ```
 
 ## Compatibility
 
-For use with: "jsPsych v7.x.x" (give specific version). 
+For use with: "jsPsych v7.x.x" (give specific version).
 
 ## Documentation
 

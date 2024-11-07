@@ -1,42 +1,40 @@
-# triple-lever-controller
+# triple-handle-controller
 
 **TODO change main URL below **
 Current version: 1.0.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-html-audio-response/CHANGELOG.md).
 
-This plugin displays a video and records inputs from the participant via a game controller. This plugin requires an external game controller with at least one or more analogue input devices, such as a lever or an pressure sensitive button. The recording of data starts when the user presses the record button and ends when the video stops.
+This plugin displays a video and records inputs from the participant via a game controller. This plugin requires an external game controller with at least one or more analogue input devices, such as a handle or a pressure sensitive button. The recording of data starts when the user presses the record button and ends when the video stops.
 
 The plugin will record data as indicated by the _rate_ variable (how many times it will record per second).
 
 ## Parameters
 
-In addition to the [parameters available in all plugins](../overview/plugins.md#parameters-available-in-all-plugins), this plugin accepts the following parameters. Parameters with a default value of *undefined* must be specified. Other parameters can be left unspecified if the default value is acceptable.
+In addition to the [parameters available in all plugins](../overview/plugins.md#parameters-available-in-all-plugins), this plugin accepts the following parameters. Parameters with a default value of _undefined_ must be specified. Other parameters can be left unspecified if the default value is acceptable.
 
-Parameter | Type | Default Value | Description
-----------|------|---------------|------------
-title | string | undefined | The title to appear above the video.
-video_src | string | undefined | The url of the video location.
-axis_1 | numeric | undefined | The input number of the first axis.
-axis_2 | numeric | undefined | The input number of the second axis.
-axis_3 | numeric | undefined | The input number of the third axis.
-axis_location | complex | ["L", "H", "R"] | An array of three characters which will indicate the placement of each of the three axises on screen. "L" places the axis on the left of the screen, "R" places the axis on the right of the screen, and "H" hides the axis entirely.
-axes_labels | complex | ["axis1", "axis2", "axis3"] | An array of the three axis names. If an axis is not going to be used, then an empty string ("") can be used in place of the name.
-axis1_labels | complex | ["low", "neutral", "high"] | An array of labels for axis 1. The label in index 1 appears near the bottom of the axis, the one in index 2 appears near the middle, and the one in index 3 appears near the top.
-axis2_labels | complex | ["negative", "neutral", "positive"] | An array of labels for axis 2. The label in index 1 appears near the bottom of the axis, the one in index 2 appears near the middle, and the one in index 3 appears near the top.
-axis3_labels | complex | ["a", "b", "c"] | An array of labels for axis 3. The label in index 1 appears near the bottom of the axis, the one in index 2 appears near the middle, and the one in index 3 appears near the top.
-rate | numeric | 1000 | Number of miliseconds between each data call.
-
-
+| Parameter     | Type    | Default Value                       | Description                                                                                                                                                                                                                           |
+| ------------- | ------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| title         | string  | undefined                           | The title to appear above the video.                                                                                                                                                                                                  |
+| video_src     | string  | undefined                           | The url of the video location.                                                                                                                                                                                                        |
+| axis_1        | numeric | undefined                           | The input number of the first axis.                                                                                                                                                                                                   |
+| axis_2        | numeric | undefined                           | The input number of the second axis.                                                                                                                                                                                                  |
+| axis_3        | numeric | undefined                           | The input number of the third axis.                                                                                                                                                                                                   |
+| axis_location | complex | ["L", "H", "R"]                     | An array of three characters which will indicate the placement of each of the three axises on screen. "L" places the axis on the left of the screen, "R" places the axis on the right of the screen, and "H" hides the axis entirely. |
+| axes_labels   | complex | ["axis1", "axis2", "axis3"]         | An array of the three axis names. If an axis is not going to be used, then an empty string ("") can be used in place of the name.                                                                                                     |
+| axis1_labels  | complex | ["low", "neutral", "high"]          | An array of labels for axis 1. The label in index 1 appears near the bottom of the axis, the one in index 2 appears near the middle, and the one in index 3 appears near the top.                                                     |
+| axis2_labels  | complex | ["negative", "neutral", "positive"] | An array of labels for axis 2. The label in index 1 appears near the bottom of the axis, the one in index 2 appears near the middle, and the one in index 3 appears near the top.                                                     |
+| axis3_labels  | complex | ["a", "b", "c"]                     | An array of labels for axis 3. The label in index 1 appears near the bottom of the axis, the one in index 2 appears near the middle, and the one in index 3 appears near the top.                                                     |
+| rate          | numeric | 1000                                | Number of miliseconds between each data call.                                                                                                                                                                                         |
 
 ## Data Generated
 
 In addition to the [default data collected by all plugins](../overview/plugins.md#data-collected-by-all-plugins), this plugin collects the following data for each trial.
 
-Name | Type | Value
------|------|------
-data_arrays | array | An array of three arrays, each representing an different input device. Each of the three arrays inside contains a value of the lever taken as often as set in the rate parameter.
-rate | numeric | Number of miliseconds between each data call.
-video_src | string | A URL to a copy of the videodata.
-duration | numeric | The length of the video, in seconds.
+| Name        | Type    | Value                                                                                                                                                                              |
+| ----------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| data_arrays | array   | An array of three arrays, each representing an different input device. Each of the three arrays inside contains a value of the handle taken as often as set in the rate parameter. |
+| rate        | numeric | Number of miliseconds between each data call.                                                                                                                                      |
+| video_src   | string  | A URL to a copy of the videodata.                                                                                                                                                  |
+| duration    | numeric | The length of the video, in seconds.                                                                                                                                               |
 
 <!-- ## Simulation Mode
 
@@ -63,26 +61,26 @@ Using NPM:
 ```
 npm install @jspsych/plugin-html-audio-response
 ```
+
 ```js
-import htmlAudioResponse from '@jspsych/plugin-html-audio-response';
+import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
 ```
 
 ## Examples
 
-
 ???+ example "Simple spoken response to a stimulus"
-    === "Code"
-        ```javascript
+=== "Code"
+`javascript
         var experiment = [
             {
-                type: jsVAVideo,
+                type: jsTripleHandleController,
                 axis_1: 0,
                 axis_2: 1,
                 axis_3: 2,
                 axis_location: ["L", "R", "L"],
                 axis2_labels: ["negative", "neutral", "positive"],
                 axis1_labels: ["low", "neutral", "high"],
-                css_clases: ["vav-override"],
+                css_clases: ["thc-override"],
                 axes_labels: ["axis1 (axis 1)", "axis2 (axis 2)", "item 3 (axis 3)"],
                 title: "",
                 // from the full throttle paper: a monitor refresh rate of 60 Hz meant
@@ -92,7 +90,7 @@ import htmlAudioResponse from '@jspsych/plugin-html-audio-response';
                 rate: 1000 / 60,
             },
         ];
-        ```
+        `
 
     === "Demo"
         <div style="text-align:center;">

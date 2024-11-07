@@ -1,5 +1,5 @@
 /**
- * jspsych-vavideo
+ * jspsych-triple-handle-controller
  * version 0.1.0
  *
  * A jsPsych plugin for real-time annotation of videos using a game controller.
@@ -25,7 +25,7 @@
  *  - **rate**: The sampling rate (in milliseconds) for recording data.
  */
 
-var jsVAVideo = (function (jspsych) {
+var jsTripleHandleController = (function (jspsych) {
   "use strict";
 
   /* Set up constants */
@@ -109,7 +109,7 @@ var jsVAVideo = (function (jspsych) {
    * @author YOUR NAME
    * @see {@link https://DOCUMENTATION_URL DOCUMENTATION LINK TEXT}
    */
-  class jsVAVideoPlugin {
+  class jsTripleHandleControllerPlugin {
     constructor(jsPsych) {
       this.jsPsych = jsPsych;
       this.playButtonClick = this.playButtonClick.bind(this);
@@ -185,7 +185,7 @@ var jsVAVideo = (function (jspsych) {
           );
           try {
             document
-              .getElementById("vav-measuring-dimension-2")
+              .getElementById("thc-measuring-dimension-2")
               .style.setProperty(
                 `--meter-height`,
                 Math.ceil(100 * this.currentAxis3) / 100
@@ -193,7 +193,7 @@ var jsVAVideo = (function (jspsych) {
           } catch {}
           try {
             document
-              .getElementById("vav-measuring-dimension-1")
+              .getElementById("thc-measuring-dimension-1")
               .style.setProperty(
                 `--meter-height`,
                 Math.ceil(100 * this.currentAxis2) / 100
@@ -201,7 +201,7 @@ var jsVAVideo = (function (jspsych) {
           } catch {}
           try {
             document
-              .getElementById("vav-measuring-dimension-0")
+              .getElementById("thc-measuring-dimension-0")
               .style.setProperty(
                 `--meter-height`,
                 Math.ceil(100 * this.currentAxis1) / 100
@@ -262,7 +262,7 @@ var jsVAVideo = (function (jspsych) {
     connectHandler(e) {
       this.controllers[e.gamepad.index] = e.gamepad;
       if (this.validControllerPluggedIn()) {
-        document.getElementById("vav-overlay").style.display = "none";
+        document.getElementById("thc-overlay").style.display = "none";
         this.startDataCollection();
       }
     }
@@ -273,7 +273,7 @@ var jsVAVideo = (function (jspsych) {
     disconnectHandler(e) {
       delete this.controllers[e.gamepad.index];
       if (!this.validControllerPluggedIn()) {
-        document.getElementById("vav-overlay").style.display = "flex";
+        document.getElementById("thc-overlay").style.display = "flex";
         this.pauseRecording();
         this.pausePlaying();
       }
@@ -669,7 +669,7 @@ var jsVAVideo = (function (jspsych) {
           --meter-border-color: 255, 255, 255;
         }
 
-        #jsvavideo-container {
+        #js-thc-container {
           display: grid;
           gap: var(--needle-gap);
           padding-left: var(--needle-gap);
@@ -680,14 +680,14 @@ var jsVAVideo = (function (jspsych) {
           width: 100%;
         }
 
-        .vav-measuring-needle-container {
+        .thc-measuring-needle-container {
           display: flex;
           justify-content: center;
           align-items: center;
           grid-row: 1;
         }
 
-        .vav-measuring-needle {
+        .thc-measuring-needle {
           position: relative;
           height: var(--meter-max-height);
           width: var(--meter-width);
@@ -695,10 +695,10 @@ var jsVAVideo = (function (jspsych) {
           border-radius: var(--roundness);
         }
 
-        .vav-measuring-needle.recording {
+        .thc-measuring-needle.recording {
           --meter-fg: 255, 255, 255;
         }
-        .vav-measuring-needle:after {
+        .thc-measuring-needle:after {
           content: "";
           transition: var(--fast-transition) ease background-color;
           position: absolute;
@@ -716,29 +716,29 @@ var jsVAVideo = (function (jspsych) {
         }
 
         /* $ {this.axis_location[0] != "H" ?
-        "#vav-measuring-dimension-0 {\
+        "#thc-measuring-dimension-0 {\
           grid-column: " + 0 + ";\
         }" : ""} */
         
-        #vav-measuring-dimension-0 {
+        #thc-measuring-dimension-0 {
           grid-column: ` +
         axis1Index +
         `;
         }
 
-        #vav-measuring-dimension-1 {
+        #thc-measuring-dimension-1 {
           grid-column: ` +
         axis2Index +
         `;
         }
 
-         #vav-measuring-dimension-2 {
+         #thc-measuring-dimension-2 {
           grid-column: ` +
         axis3Index +
         `;
         } 
 
-        .vav-measuring-labels, .vav-axis-label {
+        .thc-measuring-labels, .thc-axis-label {
           display: flex;
           width: calc(var(--meter-max-height) - 1 * var(--roundness));
           height: 1rem;
@@ -748,32 +748,32 @@ var jsVAVideo = (function (jspsych) {
           text-transform: uppercase;
         }
 
-        .vav-axis-label {
+        .thc-axis-label {
           font-weight: 700;
           justify-content: center;
         }
 
         /* face right of bar */
-        #vav-measuring-dimension-0 .vav-measuring-labels, #vav-measuring-dimension-1 .vav-axis-label, #vav-measuring-dimension-2 .vav-axis-label  {
+        #thc-measuring-dimension-0 .thc-measuring-labels, #thc-measuring-dimension-1 .thc-axis-label, #thc-measuring-dimension-2 .thc-axis-label  {
           transform: rotate(90deg)
             translateY(calc(var(--meter-width) * -0.5 - var(--meter-margin) * 4));
           flex-direction: row-reverse;
         }
 
         /* face left of bar */
-        #vav-measuring-dimension-1 .vav-measuring-labels, #vav-measuring-dimension-0 .vav-axis-label, #vav-measuring-dimension-2 .vav-measuring-labels {
+        #thc-measuring-dimension-1 .thc-measuring-labels, #thc-measuring-dimension-0 .thc-axis-label, #thc-measuring-dimension-2 .thc-measuring-labels {
           transform: rotate(-90deg)
             translateY(calc(var(--meter-width) * -1 + var(--meter-margin) * 3.5));
           flex-direction: row;
         }
 
         /*
-        #vav-video-container,
-        #vav-measurements-plots {
+        #thc-video-container,
+        #thc-measurements-plots {
           grid-column: 2;
         } */
 
-        #vav-video-container {
+        #thc-video-container {
           display: flex;
           flex-direction: column;
           width: 100%;
@@ -781,18 +781,18 @@ var jsVAVideo = (function (jspsych) {
           gap: 1rem;
         }
 
-        #vav-title {
+        #thc-title {
           margin: 0;
           text-align: center;
         }
 
-        #vav-video-toolbar {
+        #thc-video-toolbar {
           display: grid;
           grid-template-columns: max-content auto max-content;
           gap: 1rem;
         }
 
-        #vav-video-column {
+        #thc-video-column {
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -800,7 +800,7 @@ var jsVAVideo = (function (jspsych) {
           grid-column: ${videoIndex}
         }
 
-        #vav-player {
+        #thc-player {
           width: 100%;
           box-sizing: border-box;
           transition: var(--fast-transition) ease border-color;
@@ -808,15 +808,15 @@ var jsVAVideo = (function (jspsych) {
           border-radius: 0.25rem;
         }
 
-        #vav-player.recording {
+        #thc-player.recording {
           border-color: tomato;
         }
 
-        #vav-player.playing {
+        #thc-player.playing {
           border-color: mediumseagreen;
         }
 
-        #vav-overlay {
+        #thc-overlay {
           position: fixed;
           inset: 0;
           background-color: rgba(242, 242, 239, 0.9);
@@ -827,7 +827,7 @@ var jsVAVideo = (function (jspsych) {
           align-items: center;
         }
   
-        #vav-overlay p {
+        #thc-overlay p {
           max-width: 40ch;
           text-align: center;
           font-size: 1.5rem;
@@ -881,7 +881,7 @@ var jsVAVideo = (function (jspsych) {
           bottom: 1rem;
         }
       </style>
-      <div id="vav-overlay">
+      <div id="thc-overlay">
         <p>
           A controller with throttles has not been detected.
           If you have already plugged one in, please try pressing any 
@@ -889,43 +889,43 @@ var jsVAVideo = (function (jspsych) {
         </p>
       </div>
       <div id="recording-feedback">...</div>
-      <div id="jsvavideo-container">
-        <div id="vav-video-column">
-          <div id="vav-video-container">
-            ${trial.title ? '<h1 id="vav-title">' + trial.title + "</h1>" : ""}
-            <video id="vav-player" width="100%" src="${
+      <div id="js-thc-container">
+        <div id="thc-video-column">
+          <div id="thc-video-container">
+            ${trial.title ? '<h1 id="thc-title">' + trial.title + "</h1>" : ""}
+            <video id="thc-player" width="100%" src="${
               trial.video_src ? trial.video_src : ""
             }"></video>
-            <div id="vav-video-toolbar">
-              <div class="vav-toolbar-group">
+            <div id="thc-video-toolbar">
+              <div class="thc-toolbar-group">
                 <button id="play-btn" class="jspsych-btn player-btn">► Play</button>
                 <button id="record-btn" class="jspsych-btn player-btn">● Record</button>
               </div>
               <span></span>
 
-              <div class="vav-toolbar-group">
+              <div class="thc-toolbar-group">
                 <button id="reset-btn" class="jspsych-btn" disabled>Try again</button>
                 <button id="save-btn" class="jspsych-btn" disabled>Save</button>
               </div>
             </div>
           </div>
-          <div id="vav-measurements-plots"></div>
+          <div id="thc-measurements-plots"></div>
         </div>
         ${
           axis1Index != -1
             ? `<div
-            class="vav-measuring-needle-container"
-            id="vav-measuring-dimension-0"
+            class="thc-measuring-needle-container"
+            id="thc-measuring-dimension-0"
           >
             ${
               trial.axes_labels
-                ? '<div class="vav-axis-label">' +
+                ? '<div class="thc-axis-label">' +
                   trial.axes_labels[0] +
                   "</div>"
                 : ""
             }
-            <div class="vav-measuring-needle"></div>
-            <div class="vav-measuring-labels">
+            <div class="thc-measuring-needle"></div>
+            <div class="thc-measuring-labels">
               ${this.formatLabels(trial.axis1_labels)}
             </div>
           </div>`
@@ -934,18 +934,18 @@ var jsVAVideo = (function (jspsych) {
         ${
           axis2Index != -1
             ? `<div
-            class="vav-measuring-needle-container"
-            id="vav-measuring-dimension-1"
+            class="thc-measuring-needle-container"
+            id="thc-measuring-dimension-1"
           >
-            <div class="vav-measuring-needle"></div>
+            <div class="thc-measuring-needle"></div>
             ${
               trial.axes_labels
-                ? '<div class="vav-axis-label">' +
+                ? '<div class="thc-axis-label">' +
                   trial.axes_labels[1] +
                   "</div>"
                 : ""
             }
-            <div class="vav-measuring-labels">
+            <div class="thc-measuring-labels">
               ${this.formatLabels(trial.axis2_labels)}
             </div>
           </div>`
@@ -954,17 +954,17 @@ var jsVAVideo = (function (jspsych) {
         ${
           axis3Index != -1
             ? `<div
-          class="vav-measuring-needle-container"
-          id="vav-measuring-dimension-2"
+          class="thc-measuring-needle-container"
+          id="thc-measuring-dimension-2"
         >
 
-          <div class="vav-measuring-needle"></div>
+          <div class="thc-measuring-needle"></div>
           ${
             trial.axes_labels
-              ? '<div class="vav-axis-label">' + trial.axes_labels[2] + "</div>"
+              ? '<div class="thc-axis-label">' + trial.axes_labels[2] + "</div>"
               : ""
           }
-          <div class="vav-measuring-labels">
+          <div class="thc-measuring-labels">
             ${this.formatLabels(trial.axis3_labels)}
           </div>
         </div>`
@@ -993,14 +993,14 @@ var jsVAVideo = (function (jspsych) {
       this.resetBtn.addEventListener("click", this.resetButtonClick);
       this.saveBtn.addEventListener("click", this.saveButtonClick);
 
-      this.videoPlayer = document.getElementById("vav-player");
+      this.videoPlayer = document.getElementById("thc-player");
       this.videoPlayer.addEventListener("ended", this.videoEnded);
       this.videoPlayer.addEventListener("loadedmetadata", () => {
         this.videoDuration = this.videoPlayer.duration;
       });
 
       this.measuringNeedles = document.getElementsByClassName(
-        "vav-measuring-needle"
+        "thc-measuring-needle"
       );
 
       /**
@@ -1018,7 +1018,7 @@ var jsVAVideo = (function (jspsych) {
       });
     }
   }
-  jsVAVideoPlugin.info = info;
+  jsTripleHandleControllerPlugin.info = info;
 
-  return jsVAVideoPlugin;
+  return jsTripleHandleControllerPlugin;
 })(jsPsychModule);
