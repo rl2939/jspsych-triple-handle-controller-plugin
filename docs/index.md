@@ -68,7 +68,7 @@ import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
 
 ## Examples
 
-This code runs an experiment involving two labels
+This code runs an experiment involving two levers.
 
 === "Code"
 ```javascript
@@ -81,9 +81,9 @@ This code runs an experiment involving two labels
                 axis_1: 0,
                 axis_2: 1,
                 axis_3: 2,
-                axis_location: ["L", "R", "L"],
-                axis1_labels: ["low", "neutral", "high"],
-                axis2_labels: ["negative", "neutral", "positive"],
+                axis_location: ["L", "R", "H"],
+                axis1_labels: ["No", "Maybe", "Yes"],
+                axis2_labels: ["0%", "50%", "100%"],
                 css_clases: ["thc-override"],
                 axes_labels: ["axis1 (axis 1)", "axis2 (axis 2)", "item 3 (axis 3)"],
                 title: "Follow the instructions in the video.",
