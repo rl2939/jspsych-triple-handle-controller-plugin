@@ -68,9 +68,13 @@ import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
 
 ## Examples
 
-???+ example "Simple spoken response to a stimulus"
+This code runs an experiment
+
 === "Code"
 ```javascript
+
+        const videos = ["Test.webm"];
+
         var experiment = [
             {
                 type: jsTripleHandleController,
@@ -82,19 +86,30 @@ import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
                 axis1_labels: ["low", "neutral", "high"],
                 css_clases: ["thc-override"],
                 axes_labels: ["axis1 (axis 1)", "axis2 (axis 2)", "item 3 (axis 3)"],
-                title: "",
-                // from the full throttle paper: a monitor refresh rate of 60 Hz meant
-                // that their position could be mapped on to changes on screen every 16.7 ms
-                // or higher. Device co-ordinates were thus recorded in intervals of 1-2
-                // refresh rates.
-                rate: 1000 / 60,
+                title: "Follow the instructions in the video.",
+                // A monitor refresh rate of 60 Hz means that
+                // the screen changes every 16.7 ms or higher.
+                rate: 1000 / 60, //16.777...
             },
         ];
-        ```
 
-    === "Demo"
-        <div style="text-align:center;">
-            <iframe src="index.html" width="90%;" height="600px;" frameBorder="0"></iframe>
-        </div>
+        async function createExperiment() {
+            const videoSrc = `./videos/${videos[0]}`;
+            experiment[0].video_src = videoSrc;
+            jsPsych.run(experiment);
+        }
 
-    <a target="_blank" rel="noopener noreferrer" href="index.html">Open demo in new tab</a>
+        createExperiment();
+```
+
+## Demo
+
+See the examples folder.
+
+The bullet train video (BulletTrainFriction.webm) is from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:BulletTrainFriction.webm), under the [Creative Commons CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/deed.en).
+<!-- === "Demo"
+    <div style="text-align:center;">
+        <iframe src="index.html" width="90%;" height="600px;" frameBorder="0"></iframe>
+    </div>
+
+<a target="_blank" rel="noopener noreferrer" href="index.html">Open demo in new tab</a> -->
