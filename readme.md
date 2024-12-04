@@ -26,7 +26,7 @@ import jsPsychPluginName from "@jspsych-contrib/my-package-name";
 
 ## Compatibility
 
-For use with: "jsPsych v7.x.x" (give specific version).
+This extension was tested with jsPsych v8.1.0.
 
 ## Documentation
 
