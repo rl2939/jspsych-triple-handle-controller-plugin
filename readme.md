@@ -4,7 +4,7 @@ TODO: Add details to loading, compatibility, and Author/Citations.
 
 ## Overview
 
-This plugin collects responses to an video file in real time using a game controller.
+This plugin collects responses to a video file in real time using a game controller.
 
 ## Loading
 
