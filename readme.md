@@ -1,6 +1,6 @@
 # triple-handle-controller plugin
 
-TODO: Add details to loading, compatibility, and Author/Citations.
+TODO: Add Author/Citations.
 
 ## Overview
 
