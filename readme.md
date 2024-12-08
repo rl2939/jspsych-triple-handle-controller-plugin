@@ -11,17 +11,17 @@ This plugin collects responses to a video file in real time using a game control
 ### In browser
 
 ```js
-<script src="https://unpkg.com/@jspsych-contrib/my-package-name@1.0.0">
+<script src="https://unpkg.com/@jspsych-contrib/plugin-triple-handle-controller@1.0.0">
 ```
 
 ### Via NPM
 
 ```
-npm install @jspsych-contrib/my-package-name
+npm install @jspsych-contrib/plugin-triple-handle-controller
 ```
 
 ```js
-import jsPsychPluginName from "@jspsych-contrib/my-package-name";
+import jsPsychPluginName from "@jspsych-contrib/plugin-triple-handle-controller";
 ```
 
 ## Compatibility

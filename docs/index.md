@@ -40,32 +40,6 @@ In addition to the [default data collected by all plugins](../overview/plugins.m
 
 This plugin does not yet support [simulation mode](../overview/simulation.md). -->
 
-## Install
-
-**TODO change URLS of install files**
-
-Using the CDN-hosted JavaScript file:
-
-```js
-<script src="https://unpkg.com/@jspsych/plugin-html-audio-response@1.0.2"></script>
-```
-
-Using the JavaScript file downloaded from a GitHub release dist archive:
-
-```js
-<script src="jspsych/plugin-html-audio-response.js"></script>
-```
-
-Using NPM:
-
-```
-npm install @jspsych/plugin-html-audio-response
-```
-
-```js
-import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
-```
-
 ## Examples
 
 This code runs an experiment involving two levers.
