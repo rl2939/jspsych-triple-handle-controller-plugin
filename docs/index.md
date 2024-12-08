@@ -1,7 +1,6 @@
 # triple-handle-controller
 
-**TODO change main URL below **
-Current version: 1.0.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-html-audio-response/CHANGELOG.md).
+Current version: 1.0.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-triple-handle-controller/CHANGELOG.md).
 
 This plugin displays a video and records inputs from the participant via a game controller. This plugin requires an external game controller with at least one or more analogue input devices, such as a handle or a pressure sensitive button. The recording of data starts when the user presses the record button and ends when the video stops.
 
@@ -9,7 +8,7 @@ The plugin will record data as indicated by the _rate_ variable (how many times 
 
 ## Parameters
 
-In addition to the [parameters available in all plugins](../overview/plugins.md#parameters-available-in-all-plugins), this plugin accepts the following parameters. Parameters with a default value of _undefined_ must be specified. Other parameters can be left unspecified if the default value is acceptable.
+In addition to the [parameters available in all plugins](https://www.jspsych.org/latest/overview/plugins/index.html#parameters-available-in-all-plugins), this plugin accepts the following parameters. Parameters with a default value of _undefined_ must be specified. Other parameters can be left unspecified if the default value is acceptable.
 
 | Parameter     | Type    | Default Value                       | Description                                                                                                                                                                                                                           |
 | ------------- | ------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +26,7 @@ In addition to the [parameters available in all plugins](../overview/plugins.md#
 
 ## Data Generated
 
-In addition to the [default data collected by all plugins](../overview/plugins.md#data-collected-by-all-plugins), this plugin collects the following data for each trial.
+In addition to the [default data collected by all plugins](https://www.jspsych.org/latest/overview/plugins/index.html#data-collected-by-all-plugins), this plugin collects the following data for each trial.
 
 | Name        | Type    | Value                                                                                                                                                                              |
 | ----------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -36,17 +35,39 @@ In addition to the [default data collected by all plugins](../overview/plugins.m
 | video_src   | string  | A URL to a copy of the videodata.                                                                                                                                                  |
 | duration    | numeric | The length of the video, in seconds.                                                                                                                                               |
 
-<!-- ## Simulation Mode
 
-This plugin does not yet support [simulation mode](../overview/simulation.md). -->
+## Install
+
+**TODO change URLS of install files**
+
+Using the CDN-hosted JavaScript file:
+
+```js
+<script src="https://unpkg.com/@jspsych/plugin-html-audio-response@1.0.2"></script>
+```
+
+Using the JavaScript file downloaded from a GitHub release dist archive:
+
+```js
+<script src="jspsych/plugin-html-audio-response.js"></script>
+```
+
+Using NPM:
+
+```
+npm install @jspsych/plugin-html-audio-response
+```
+
+```js
+import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
+```
 
 ## Examples
 
 This code runs an experiment involving two levers.
 
-=== "Code"
-```javascript
 
+```
         const videos = ["Test.webm"];
 
         var experiment = [
@@ -81,9 +102,3 @@ This code runs an experiment involving two levers.
 See the examples folder.
 
 The bullet train video (BulletTrainFriction.webm) is from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:BulletTrainFriction.webm), under the [Creative Commons CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/deed.en).
-<!-- === "Demo"
-    <div style="text-align:center;">
-        <iframe src="index.html" width="90%;" height="600px;" frameBorder="0"></iframe>
-    </div>
-
-<a target="_blank" rel="noopener noreferrer" href="index.html">Open demo in new tab</a> -->
