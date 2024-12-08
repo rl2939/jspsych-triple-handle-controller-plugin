@@ -35,6 +35,7 @@ In addition to the [default data collected by all plugins](https://www.jspsych.o
 | video_src   | string  | A URL to a copy of the videodata.                                                                                                                                                  |
 | duration    | numeric | The length of the video, in seconds.                                                                                                                                               |
 
+
 ## Install
 
 **TODO change URLS of install files**
