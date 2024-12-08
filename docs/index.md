@@ -1,7 +1,6 @@
 # triple-handle-controller
 
-**TODO change main URL below **
-Current version: 1.0.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-html-audio-response/CHANGELOG.md).
+Current version: 1.0.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-triple-handle-controller/CHANGELOG.md).
 
 This plugin displays a video and records inputs from the participant via a game controller. This plugin requires an external game controller with at least one or more analogue input devices, such as a handle or a pressure sensitive button. The recording of data starts when the user presses the record button and ends when the video stops.
 
@@ -9,7 +8,7 @@ The plugin will record data as indicated by the _rate_ variable (how many times 
 
 ## Parameters
 
-In addition to the [parameters available in all plugins](../overview/plugins.md#parameters-available-in-all-plugins), this plugin accepts the following parameters. Parameters with a default value of _undefined_ must be specified. Other parameters can be left unspecified if the default value is acceptable.
+In addition to the [parameters available in all plugins](https://www.jspsych.org/latest/overview/plugins/index.html#parameters-available-in-all-plugins), this plugin accepts the following parameters. Parameters with a default value of _undefined_ must be specified. Other parameters can be left unspecified if the default value is acceptable.
 
 | Parameter     | Type    | Default Value                       | Description                                                                                                                                                                                                                           |
 | ------------- | ------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +26,7 @@ In addition to the [parameters available in all plugins](../overview/plugins.md#
 
 ## Data Generated
 
-In addition to the [default data collected by all plugins](../overview/plugins.md#data-collected-by-all-plugins), this plugin collects the following data for each trial.
+In addition to the [default data collected by all plugins](https://www.jspsych.org/latest/overview/plugins/index.html#data-collected-by-all-plugins), this plugin collects the following data for each trial.
 
 | Name        | Type    | Value                                                                                                                                                                              |
 | ----------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
