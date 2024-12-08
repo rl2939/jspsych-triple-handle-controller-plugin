@@ -35,10 +35,6 @@ In addition to the [default data collected by all plugins](https://www.jspsych.o
 | video_src   | string  | A URL to a copy of the videodata.                                                                                                                                                  |
 | duration    | numeric | The length of the video, in seconds.                                                                                                                                               |
 
-<!-- ## Simulation Mode
-
-This plugin does not yet support [simulation mode](../overview/simulation.md). -->
-
 ## Install
 
 **TODO change URLS of install files**
@@ -69,9 +65,8 @@ import htmlAudioResponse from "@jspsych/plugin-html-audio-response";
 
 This code runs an experiment involving two levers.
 
-=== "Code"
-```javascript
 
+```
         const videos = ["Test.webm"];
 
         var experiment = [
@@ -106,9 +101,3 @@ This code runs an experiment involving two levers.
 See the examples folder.
 
 The bullet train video (BulletTrainFriction.webm) is from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:BulletTrainFriction.webm), under the [Creative Commons CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/deed.en).
-<!-- === "Demo"
-    <div style="text-align:center;">
-        <iframe src="index.html" width="90%;" height="600px;" frameBorder="0"></iframe>
-    </div>
-
-<a target="_blank" rel="noopener noreferrer" href="index.html">Open demo in new tab</a> -->
