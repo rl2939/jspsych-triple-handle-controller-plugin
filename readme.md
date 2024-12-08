@@ -1,6 +1,6 @@
 # triple-handle-controller plugin
 
-TODO: Add details to loading, compatibility, and Author/Citations.
+TODO: Add Author/Citations.
 
 ## Overview
 
@@ -21,7 +21,7 @@ npm install @jspsych-contrib/plugin-triple-handle-controller
 ```
 
 ```js
-import jsPsychPluginName from "@jspsych-contrib/plugin-triple-handle-controller";
+import jsPsychTripleHandleController from "@jspsych-contrib/plugin-triple-handle-controller";
 ```
 
 ## Compatibility
